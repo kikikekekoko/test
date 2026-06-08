@@ -17,44 +17,19 @@
       padding: 20px 16px 40px;
     }
 
-    h1 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #a0a0d0;
-      margin-bottom: 18px;
-      letter-spacing: 2px;
-    }
+    h1 { font-size: 1.3rem; font-weight: 600; color: #a0a0d0; margin-bottom: 18px; letter-spacing: 2px; }
 
     /* ── Tabs ── */
     .tabs {
-      display: flex;
-      gap: 4px;
-      background: #1a1a2e;
-      border-radius: 12px;
-      padding: 4px;
-      width: 100%;
-      max-width: 560px;
-      margin-bottom: 20px;
+      display: flex; gap: 4px; background: #1a1a2e; border-radius: 12px;
+      padding: 4px; width: 100%; max-width: 560px; margin-bottom: 20px;
     }
-
     .tab {
-      flex: 1;
-      text-align: center;
-      padding: 8px 4px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #5a5a8a;
-      cursor: pointer;
-      transition: all 0.2s;
-      user-select: none;
+      flex: 1; text-align: center; padding: 8px 4px; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600; color: #5a5a8a; cursor: pointer;
+      transition: all 0.2s; user-select: none;
     }
-
-    .tab.active {
-      background: #2a2a4a;
-      color: #9090ff;
-    }
-
+    .tab.active { background: #2a2a4a; color: #9090ff; }
     .tab:hover:not(.active) { color: #8080cc; }
 
     /* ── Pages ── */
@@ -62,27 +37,13 @@
     .page.active { display: block; }
 
     /* ── Subject grid ── */
-    .subject-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
+    .subject-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
     .subject-btn {
-      background: #1a1a2e;
-      border: 2px solid #2a2a4a;
-      border-radius: 12px;
-      padding: 14px 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      user-select: none;
+      background: #1a1a2e; border: 2px solid #2a2a4a; border-radius: 12px;
+      padding: 14px 8px; cursor: pointer; text-align: center; transition: all 0.2s; user-select: none;
     }
-
     .subject-btn:hover { border-color: #5a5aaa; background: #22223a; }
     .subject-btn.active { border-color: #7a7aff; background: #1e1e4a; box-shadow: 0 0 12px #7a7aff44; }
-
     .subject-btn .name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: #c0c0f0; }
     .subject-btn.active .name { color: #9090ff; }
     .subject-btn .time { font-size: 0.8rem; color: #6a6a9a; font-variant-numeric: tabular-nums; }
@@ -90,37 +51,15 @@
 
     /* ── Timer display ── */
     .timer-display {
-      background: #1a1a2e;
-      border: 2px solid #2a2a4a;
-      border-radius: 16px;
-      padding: 24px 40px;
-      text-align: center;
-      margin-bottom: 20px;
+      background: #1a1a2e; border: 2px solid #2a2a4a; border-radius: 16px;
+      padding: 24px 40px; text-align: center; margin-bottom: 20px;
     }
-
     .current-subject { font-size: 0.9rem; color: #6a6a9a; margin-bottom: 8px; min-height: 1.2em; }
     .current-subject span { color: #9090ff; font-weight: 600; }
-
-    .elapsed {
-      font-size: 2.8rem;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 4px;
-      color: #e0e0ff;
-    }
-
+    .elapsed { font-size: 2.8rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 4px; color: #e0e0ff; }
     .controls { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
 
-    .btn {
-      padding: 9px 24px;
-      border-radius: 8px;
-      border: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
+    .btn { padding: 9px 24px; border-radius: 8px; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
     .btn-start { background: #5a5aff; color: #fff; }
     .btn-start:hover { background: #7070ff; }
     .btn-start:disabled { background: #3a3a6a; color: #6a6aaa; cursor: not-allowed; }
@@ -131,130 +70,127 @@
     .btn-reset:hover { background: #3a3a5a; }
 
     /* ── Section shared ── */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .section-header h2 { font-size: 0.9rem; color: #6a6aaa; font-weight: 600; letter-spacing: 1px; }
-
-    .btn-small {
-      font-size: 0.75rem;
-      background: none;
-      border: 1px solid #3a3a5a;
-      color: #5a5a8a;
-      border-radius: 6px;
-      padding: 4px 10px;
-      cursor: pointer;
-    }
+    .btn-small { font-size: 0.75rem; background: none; border: 1px solid #3a3a5a; color: #5a5a8a; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
     .btn-small:hover { border-color: #ff5a7a; color: #ff5a7a; }
 
     .total-bar {
-      background: #1a1a2e;
-      border: 1px solid #2a2a4a;
-      border-radius: 10px;
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+      background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 10px;
+      padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
     }
     .total-bar .label { font-size: 0.85rem; color: #6a6a9a; }
     .total-bar .value { font-size: 1.1rem; font-weight: 700; color: #b0b0ff; font-variant-numeric: tabular-nums; }
 
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .summary-item {
-      background: #1a1a2e;
-      border: 1px solid #2a2a4a;
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-    }
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .summary-item { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px; padding: 8px; text-align: center; }
     .summary-item .s-name { font-size: 0.73rem; color: #6a6a9a; }
     .summary-item .s-time { font-size: 0.88rem; font-weight: 700; color: #9090cc; font-variant-numeric: tabular-nums; }
 
     /* ── Log list ── */
-    .log-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 240px;
-      overflow-y: auto;
-    }
+    .log-list { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
     .log-list::-webkit-scrollbar { width: 4px; }
     .log-list::-webkit-scrollbar-track { background: #1a1a2e; }
     .log-list::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 2px; }
-
     .log-item {
-      background: #1a1a2e;
-      border: 1px solid #2a2a4a;
-      border-radius: 8px;
-      padding: 8px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.84rem;
+      background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 8px;
+      padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem;
     }
     .log-item .log-subject { color: #9090ff; font-weight: 600; }
     .log-item .log-duration { color: #7070bb; font-variant-numeric: tabular-nums; }
     .log-item .log-meta { color: #4a4a7a; font-size: 0.75rem; text-align: right; }
 
-    /* ── Stats page ── */
-    .period-label {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #5a5a8a;
-      margin-bottom: 14px;
+    /* ── Month nav ── */
+    .month-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-bottom: 14px;
+    }
+    .month-nav .nav-btn {
+      background: #1a1a2e; border: 1px solid #2a2a4a; color: #7070bb;
+      border-radius: 8px; padding: 6px 14px; cursor: pointer; font-size: 1rem;
+      transition: all 0.15s;
+    }
+    .month-nav .nav-btn:hover { border-color: #7a7aff; color: #9090ff; }
+    .month-nav .nav-title { font-size: 1rem; font-weight: 700; color: #c0c0f0; min-width: 100px; text-align: center; }
+
+    /* ── Calendar ── */
+    .cal-grid {
+      width: 100%; border-collapse: collapse; margin-bottom: 16px;
+    }
+    .cal-grid th {
+      text-align: center; padding: 6px 2px; font-size: 0.75rem; color: #5a5a8a; font-weight: 600;
+    }
+    .cal-grid th:first-child { color: #ff7070; }
+    .cal-grid th:last-child { color: #7070ff; }
+
+    .cal-cell {
+      text-align: center; padding: 4px 2px; vertical-align: top;
+      border-radius: 8px; cursor: default;
+    }
+    .cal-cell.has-data { cursor: pointer; }
+    .cal-cell.has-data:hover .cal-day-num { background: #2a2a4a; }
+    .cal-cell.is-today .cal-day-num { background: #5a5aff; color: #fff; }
+    .cal-cell.selected .cal-day-num { background: #3a3a7a; color: #b0b0ff; }
+
+    .cal-day-num {
+      display: inline-block; width: 28px; height: 28px; line-height: 28px;
+      border-radius: 50%; font-size: 0.82rem; color: #8080aa; margin-bottom: 3px;
+      transition: background 0.15s;
+    }
+    .cal-cell.other-month .cal-day-num { color: #3a3a5a; }
+    .cal-cell.sun .cal-day-num { color: #ff7070; }
+    .cal-cell.sat .cal-day-num { color: #7070ff; }
+    .cal-cell.is-today .cal-day-num { color: #fff; }
+
+    .cal-dot {
+      width: 6px; height: 6px; background: #5a5aff; border-radius: 50%;
+      margin: 0 auto 2px; opacity: 0;
+    }
+    .cal-cell.has-data .cal-dot { opacity: 1; }
+
+    .cal-time {
+      font-size: 0.62rem; color: #6060aa; font-variant-numeric: tabular-nums;
+      line-height: 1.2;
     }
 
-    .bar-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+    /* ── Day detail panel ── */
+    .day-detail {
+      background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px;
+      padding: 14px; margin-bottom: 14px; display: none;
     }
+    .day-detail.visible { display: block; }
+    .day-detail h3 { font-size: 0.88rem; color: #7070bb; margin-bottom: 10px; }
+    .day-detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .day-detail-item { background: #12122a; border-radius: 6px; padding: 6px; text-align: center; }
+    .day-detail-item .dd-name { font-size: 0.7rem; color: #5a5a8a; }
+    .day-detail-item .dd-time { font-size: 0.82rem; font-weight: 700; color: #8888cc; font-variant-numeric: tabular-nums; }
+
+    /* ── Subject bars ── */
+    .bar-section { margin-bottom: 4px; }
+    .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .bar-label { width: 46px; font-size: 0.82rem; color: #8080bb; text-align: right; flex-shrink: 0; }
-    .bar-track { flex: 1; background: #1a1a2e; border-radius: 6px; height: 20px; overflow: hidden; }
+    .bar-track { flex: 1; background: #1a1a2e; border-radius: 6px; height: 18px; overflow: hidden; }
     .bar-fill { height: 100%; background: #5a5aff; border-radius: 6px; transition: width 0.4s; }
     .bar-val { width: 62px; font-size: 0.78rem; color: #7070bb; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
-    .daily-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      margin-top: 16px;
-    }
-    .daily-table th {
-      color: #5a5a8a;
-      font-weight: 600;
-      padding: 6px 8px;
-      border-bottom: 1px solid #2a2a4a;
-      text-align: left;
-    }
-    .daily-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid #1e1e38;
-      color: #8080bb;
-      font-variant-numeric: tabular-nums;
-    }
+    .empty-msg { text-align: center; color: #3a3a6a; font-size: 0.85rem; padding: 30px 0; }
+
+    /* ── Weekly table ── */
+    .week-nav { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 14px; }
+    .week-nav .nav-btn { background: #1a1a2e; border: 1px solid #2a2a4a; color: #7070bb; border-radius: 8px; padding: 6px 14px; cursor: pointer; font-size: 1rem; transition: all 0.15s; }
+    .week-nav .nav-btn:hover { border-color: #7a7aff; color: #9090ff; }
+    .week-nav .nav-title { font-size: 0.88rem; font-weight: 600; color: #c0c0f0; min-width: 160px; text-align: center; }
+
+    .daily-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 8px; }
+    .daily-table th { color: #5a5a8a; font-weight: 600; padding: 6px 8px; border-bottom: 1px solid #2a2a4a; text-align: left; }
+    .daily-table td { padding: 7px 8px; border-bottom: 1px solid #1e1e38; color: #8080bb; font-variant-numeric: tabular-nums; }
     .daily-table td:first-child { color: #6060aa; }
     .daily-table td.highlight { color: #9090ff; font-weight: 600; }
-
-    .empty-msg { text-align: center; color: #3a3a6a; font-size: 0.85rem; padding: 30px 0; }
   </style>
 </head>
 <body>
   <h1>📚 공부 타이머</h1>
 
-  <!-- Tab bar -->
   <div class="tabs">
     <div class="tab active" data-tab="timer">타이머</div>
     <div class="tab" data-tab="today">오늘</div>
@@ -292,86 +228,95 @@
 
   <!-- ── Page: Weekly ── -->
   <div class="page" id="page-weekly">
-    <div class="section-header">
-      <h2>주간 통계</h2>
+    <div class="week-nav">
+      <button class="nav-btn" id="weekPrev">‹</button>
+      <div class="nav-title" id="weekLabel"></div>
+      <button class="nav-btn" id="weekNext">›</button>
     </div>
-    <div class="period-label" id="weekLabel"></div>
     <div class="total-bar">
       <span class="label">주간 총 공부 시간</span>
       <span class="value" id="weekTotal">00:00:00</span>
     </div>
-    <div id="weekSubjectBars"></div>
+    <div class="bar-section" id="weekSubjectBars"></div>
     <div id="weekDailyTable"></div>
   </div>
 
   <!-- ── Page: Monthly ── -->
   <div class="page" id="page-monthly">
-    <div class="section-header">
-      <h2>월간 통계</h2>
+    <div class="month-nav">
+      <button class="nav-btn" id="monthPrev">‹</button>
+      <div class="nav-title" id="monthNavTitle"></div>
+      <button class="nav-btn" id="monthNext">›</button>
     </div>
-    <div class="period-label" id="monthLabel"></div>
     <div class="total-bar">
       <span class="label">월간 총 공부 시간</span>
       <span class="value" id="monthTotal">00:00:00</span>
     </div>
-    <div id="monthSubjectBars"></div>
-    <div id="monthDailyTable"></div>
+    <table class="cal-grid" id="calGrid"></table>
+    <div class="day-detail" id="dayDetail">
+      <h3 id="dayDetailTitle"></h3>
+      <div class="day-detail-grid" id="dayDetailGrid"></div>
+    </div>
+    <div class="bar-section" id="monthSubjectBars"></div>
   </div>
 
   <script>
     const SUBJECTS = ['경제', '민법', '감관법', '회계', '부원론', '실', '이', '법', '기타'];
+    const DOW = ['일','월','화','수','목','금','토'];
 
-    // ── Storage ──
-    // All logs stored as array of { subject, duration, at }
-    // Today's accumulated stored separately for fast access
-    function todayKey() { return 'acc_' + ymd(new Date()); }
     function ymd(d) {
       return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     }
 
     let state = {
-      selected: null,
-      running: false,
-      startTs: null,
-      elapsed: 0,
-      tickInterval: null,
+      selected: null, running: false, startTs: null, elapsed: 0, tickInterval: null,
       logs: JSON.parse(localStorage.getItem('study_logs') || '[]'),
-      accumulated: JSON.parse(localStorage.getItem(todayKey()) || '{}'),
+      accumulated: JSON.parse(localStorage.getItem('acc_' + ymd(new Date())) || '{}'),
+      weekOffset: 0,   // 0 = this week, -1 = last week ...
+      monthYear: new Date().getFullYear(),
+      monthMonth: new Date().getMonth(),
+      selectedDay: null,
     };
 
     function save() {
       localStorage.setItem('study_logs', JSON.stringify(state.logs));
-      localStorage.setItem(todayKey(), JSON.stringify(state.accumulated));
+      localStorage.setItem('acc_' + ymd(new Date()), JSON.stringify(state.accumulated));
     }
 
     function fmt(sec) {
       sec = Math.max(0, Math.floor(sec));
-      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-      const s = String(sec % 60).padStart(2, '0');
-      return `${h}:${m}:${s}`;
+      return `${String(Math.floor(sec/3600)).padStart(2,'0')}:${String(Math.floor((sec%3600)/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
     }
 
     function fmtShort(sec) {
       sec = Math.max(0, Math.floor(sec));
-      const h = Math.floor(sec / 3600);
-      const m = Math.floor((sec % 3600) / 60);
-      if (h > 0) return `${h}h ${m}m`;
-      return `${m}m`;
+      const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60);
+      return h > 0 ? `${h}h ${m}m` : `${m}m`;
     }
 
-    function fmtTimestamp(date) {
-      return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+    function fmtTimestamp(d) { return d.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}); }
+
+    function logsInRange(start, end) {
+      return state.logs.filter(l => { const d = new Date(l.at); return d >= start && d < end; });
     }
 
-    // ── Tab switching ──
-    const tabs = document.querySelectorAll('.tab');
-    const pages = document.querySelectorAll('.page');
+    function aggregateBySubject(logs) {
+      const acc = {};
+      logs.forEach(l => { acc[l.subject] = (acc[l.subject]||0) + l.duration; });
+      return acc;
+    }
 
-    tabs.forEach(tab => {
+    function aggregateByDay(logs) {
+      const acc = {};
+      logs.forEach(l => { const d = ymd(new Date(l.at)); acc[d] = (acc[d]||0) + l.duration; });
+      return acc;
+    }
+
+    // ── Tabs ──
+    document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        pages.forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById('page-' + tab.dataset.tab).classList.add('active');
         if (tab.dataset.tab === 'today') renderToday();
@@ -381,24 +326,23 @@
     });
 
     // ── Subject grid ──
-    const subjectGrid = document.getElementById('subjectGrid');
-
     function renderSubjects() {
-      subjectGrid.innerHTML = '';
+      const grid = document.getElementById('subjectGrid');
+      grid.innerHTML = '';
       SUBJECTS.forEach(name => {
         const btn = document.createElement('div');
         btn.className = 'subject-btn' + (state.selected === name ? ' active' : '');
-        btn.innerHTML = `<div class="name">${name}</div><div class="time">${fmt(state.accumulated[name] || 0)}</div>`;
+        btn.innerHTML = `<div class="name">${name}</div><div class="time">${fmt(state.accumulated[name]||0)}</div>`;
         btn.addEventListener('click', () => selectSubject(name));
-        subjectGrid.appendChild(btn);
+        grid.appendChild(btn);
       });
     }
 
     function selectSubject(name) {
       if (state.running) return;
       state.selected = name;
-      btnStart.disabled = false;
-      currentSubjectLabel.innerHTML = `선택: <span>${name}</span>`;
+      document.getElementById('btnStart').disabled = false;
+      document.getElementById('currentSubjectLabel').innerHTML = `선택: <span>${name}</span>`;
       renderSubjects();
     }
 
@@ -413,8 +357,7 @@
       if (!state.selected || state.running) return;
       state.running = true;
       state.startTs = Date.now() - state.elapsed * 1000;
-      btnStart.disabled = true;
-      btnStop.disabled = false;
+      btnStart.disabled = true; btnStop.disabled = false;
       currentSubjectLabel.innerHTML = `공부 중: <span>${state.selected}</span>`;
       state.tickInterval = setInterval(tick, 1000);
     });
@@ -426,13 +369,12 @@
       const duration = Math.floor((Date.now() - state.startTs) / 1000);
       if (duration > 0) {
         state.logs.unshift({ subject: state.selected, duration, at: new Date().toISOString() });
-        state.accumulated[state.selected] = (state.accumulated[state.selected] || 0) + duration;
+        state.accumulated[state.selected] = (state.accumulated[state.selected]||0) + duration;
         save();
       }
       state.elapsed = 0;
       elapsedEl.textContent = fmt(0);
-      btnStart.disabled = false;
-      btnStop.disabled = true;
+      btnStart.disabled = false; btnStop.disabled = true;
       currentSubjectLabel.innerHTML = `선택: <span>${state.selected}</span>`;
       renderSubjects();
     });
@@ -441,8 +383,7 @@
       if (state.running) { clearInterval(state.tickInterval); state.running = false; }
       state.elapsed = 0;
       elapsedEl.textContent = fmt(0);
-      btnStart.disabled = !state.selected;
-      btnStop.disabled = true;
+      btnStart.disabled = !state.selected; btnStop.disabled = true;
       if (state.selected) currentSubjectLabel.innerHTML = `선택: <span>${state.selected}</span>`;
     });
 
@@ -451,175 +392,219 @@
       elapsedEl.textContent = fmt(state.elapsed);
     }
 
-    // ── Today page ──
+    // ── Today ──
     document.getElementById('btnClearLog').addEventListener('click', () => {
       if (!confirm('오늘 기록을 모두 삭제할까요?')) return;
       const today = ymd(new Date());
       state.logs = state.logs.filter(l => ymd(new Date(l.at)) !== today);
       state.accumulated = {};
-      save();
-      renderSubjects();
-      renderToday();
+      save(); renderSubjects(); renderToday();
     });
 
     function renderToday() {
       const today = ymd(new Date());
       const todayLogs = state.logs.filter(l => ymd(new Date(l.at)) === today);
-
-      // rebuild accumulated from logs (in case of cross-day inconsistency)
-      const acc = {};
-      todayLogs.forEach(l => { acc[l.subject] = (acc[l.subject] || 0) + l.duration; });
-
-      const total = Object.values(acc).reduce((a, b) => a + b, 0);
+      const acc = aggregateBySubject(todayLogs);
+      const total = Object.values(acc).reduce((a,b)=>a+b,0);
       document.getElementById('totalTime').textContent = fmt(total);
 
-      const summaryGrid = document.getElementById('summaryGrid');
-      summaryGrid.innerHTML = '';
+      const sg = document.getElementById('summaryGrid');
+      sg.innerHTML = '';
       SUBJECTS.forEach(name => {
-        const sec = acc[name] || 0;
+        const sec = acc[name]||0;
         if (!sec) return;
         const el = document.createElement('div');
         el.className = 'summary-item';
         el.innerHTML = `<div class="s-name">${name}</div><div class="s-time">${fmt(sec)}</div>`;
-        summaryGrid.appendChild(el);
+        sg.appendChild(el);
       });
 
-      const logListEl = document.getElementById('logList');
-      logListEl.innerHTML = '';
-      if (todayLogs.length === 0) {
-        logListEl.innerHTML = '<div class="empty-msg">오늘 기록이 없습니다</div>';
-        return;
-      }
+      const ll = document.getElementById('logList');
+      ll.innerHTML = '';
+      if (!todayLogs.length) { ll.innerHTML = '<div class="empty-msg">오늘 기록이 없습니다</div>'; return; }
       todayLogs.forEach(log => {
         const el = document.createElement('div');
         el.className = 'log-item';
-        el.innerHTML = `
-          <span class="log-subject">${log.subject}</span>
-          <span class="log-duration">${fmt(log.duration)}</span>
-          <span class="log-meta">${fmtTimestamp(new Date(log.at))}</span>
-        `;
-        logListEl.appendChild(el);
+        el.innerHTML = `<span class="log-subject">${log.subject}</span><span class="log-duration">${fmt(log.duration)}</span><span class="log-meta">${fmtTimestamp(new Date(log.at))}</span>`;
+        ll.appendChild(el);
       });
     }
 
-    // ── Stats helpers ──
-    function logsInRange(start, end) {
-      return state.logs.filter(l => {
-        const d = new Date(l.at);
-        return d >= start && d < end;
-      });
-    }
-
-    function aggregateBySubject(logs) {
-      const acc = {};
-      logs.forEach(l => { acc[l.subject] = (acc[l.subject] || 0) + l.duration; });
-      return acc;
-    }
-
-    function aggregateByDay(logs) {
-      const acc = {};
-      logs.forEach(l => {
-        const d = ymd(new Date(l.at));
-        acc[d] = (acc[d] || 0) + l.duration;
-      });
-      return acc;
-    }
-
+    // ── Subject bars ──
     function renderSubjectBars(container, subjectAcc) {
       container.innerHTML = '';
       const maxSec = Math.max(1, ...Object.values(subjectAcc));
-      const sorted = SUBJECTS.filter(s => subjectAcc[s] > 0)
-                              .sort((a, b) => subjectAcc[b] - subjectAcc[a]);
-      if (sorted.length === 0) {
-        container.innerHTML = '<div class="empty-msg">기록이 없습니다</div>';
-        return;
-      }
+      const sorted = SUBJECTS.filter(s => subjectAcc[s] > 0).sort((a,b) => subjectAcc[b]-subjectAcc[a]);
+      if (!sorted.length) { container.innerHTML = '<div class="empty-msg">기록이 없습니다</div>'; return; }
       sorted.forEach(name => {
-        const sec = subjectAcc[name] || 0;
-        const pct = (sec / maxSec * 100).toFixed(1);
+        const sec = subjectAcc[name]||0;
+        const pct = (sec/maxSec*100).toFixed(1);
         const row = document.createElement('div');
         row.className = 'bar-row';
-        row.innerHTML = `
-          <div class="bar-label">${name}</div>
-          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-          <div class="bar-val">${fmtShort(sec)}</div>
-        `;
+        row.innerHTML = `<div class="bar-label">${name}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div class="bar-val">${fmtShort(sec)}</div>`;
         container.appendChild(row);
       });
     }
 
-    function renderDailyTable(container, dayAcc, dateRange) {
+    // ── Weekly ──
+    document.getElementById('weekPrev').addEventListener('click', () => { state.weekOffset--; renderWeekly(); });
+    document.getElementById('weekNext').addEventListener('click', () => { state.weekOffset++; renderWeekly(); });
+
+    function renderWeekly() {
+      const now = new Date();
+      const base = new Date(now);
+      base.setDate(now.getDate() - now.getDay() + state.weekOffset * 7);
+      base.setHours(0,0,0,0);
+      const end = new Date(base); end.setDate(base.getDate()+7);
+
+      const s = base, e = new Date(end.getTime()-1);
+      document.getElementById('weekLabel').textContent = `${s.getMonth()+1}/${s.getDate()} ~ ${e.getMonth()+1}/${e.getDate()}`;
+
+      const logs = logsInRange(base, end);
+      const subjectAcc = aggregateBySubject(logs);
+      const dayAcc = aggregateByDay(logs);
+      const total = Object.values(subjectAcc).reduce((a,b)=>a+b,0);
+      document.getElementById('weekTotal').textContent = fmt(total);
+      renderSubjectBars(document.getElementById('weekSubjectBars'), subjectAcc);
+
+      // daily table
+      const tbody = document.createElement('tbody');
       const table = document.createElement('table');
       table.className = 'daily-table';
       table.innerHTML = '<thead><tr><th>날짜</th><th>공부 시간</th></tr></thead>';
-      const tbody = document.createElement('tbody');
-
-      // fill all days in range
-      const days = [];
-      const cur = new Date(dateRange.start);
-      while (cur < dateRange.end) {
-        days.push(ymd(cur));
-        cur.setDate(cur.getDate() + 1);
-      }
-
       const today = ymd(new Date());
-      days.forEach(d => {
-        const sec = dayAcc[d] || 0;
+      for (let i=0; i<7; i++) {
+        const d = new Date(base); d.setDate(base.getDate()+i);
+        const dk = ymd(d);
+        const sec = dayAcc[dk]||0;
         const tr = document.createElement('tr');
-        const dateObj = new Date(d + 'T00:00:00');
-        const label = `${dateObj.getMonth()+1}/${dateObj.getDate()}(${['일','월','화','수','목','금','토'][dateObj.getDay()]})`;
-        tr.innerHTML = `
-          <td>${label}${d === today ? ' 🔵' : ''}</td>
-          <td class="${sec > 0 ? 'highlight' : ''}">${sec > 0 ? fmt(sec) : '-'}</td>
-        `;
+        tr.innerHTML = `<td>${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})${dk===today?' 🔵':''}</td><td class="${sec>0?'highlight':''}">${sec>0?fmt(sec):'-'}</td>`;
         tbody.appendChild(tr);
-      });
-
+      }
       table.appendChild(tbody);
-      container.innerHTML = '';
-      container.appendChild(table);
+      const wdt = document.getElementById('weekDailyTable');
+      wdt.innerHTML = ''; wdt.appendChild(table);
     }
 
-    // ── Weekly page ──
-    function renderWeekly() {
-      const now = new Date();
-      const day = now.getDay(); // 0=Sun
-      const startOfWeek = new Date(now);
-      startOfWeek.setDate(now.getDate() - day);
-      startOfWeek.setHours(0, 0, 0, 0);
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek.getDate() + 7);
+    // ── Monthly ──
+    document.getElementById('monthPrev').addEventListener('click', () => {
+      state.monthMonth--;
+      if (state.monthMonth < 0) { state.monthMonth = 11; state.monthYear--; }
+      state.selectedDay = null;
+      renderMonthly();
+    });
+    document.getElementById('monthNext').addEventListener('click', () => {
+      state.monthMonth++;
+      if (state.monthMonth > 11) { state.monthMonth = 0; state.monthYear++; }
+      state.selectedDay = null;
+      renderMonthly();
+    });
 
-      document.getElementById('weekLabel').textContent =
-        `${ymd(startOfWeek)} ~ ${ymd(new Date(endOfWeek.getTime() - 1))}`;
-
-      const logs = logsInRange(startOfWeek, endOfWeek);
-      const subjectAcc = aggregateBySubject(logs);
-      const dayAcc = aggregateByDay(logs);
-      const total = Object.values(subjectAcc).reduce((a, b) => a + b, 0);
-
-      document.getElementById('weekTotal').textContent = fmt(total);
-      renderSubjectBars(document.getElementById('weekSubjectBars'), subjectAcc);
-      renderDailyTable(document.getElementById('weekDailyTable'), dayAcc, { start: startOfWeek, end: endOfWeek });
-    }
-
-    // ── Monthly page ──
     function renderMonthly() {
-      const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      const y = state.monthYear, m = state.monthMonth;
+      document.getElementById('monthNavTitle').textContent = `${y}년 ${m+1}월`;
 
-      document.getElementById('monthLabel').textContent =
-        `${now.getFullYear()}년 ${now.getMonth()+1}월`;
-
+      const startOfMonth = new Date(y, m, 1);
+      const endOfMonth = new Date(y, m+1, 1);
       const logs = logsInRange(startOfMonth, endOfMonth);
       const subjectAcc = aggregateBySubject(logs);
       const dayAcc = aggregateByDay(logs);
-      const total = Object.values(subjectAcc).reduce((a, b) => a + b, 0);
-
+      const total = Object.values(subjectAcc).reduce((a,b)=>a+b,0);
       document.getElementById('monthTotal').textContent = fmt(total);
       renderSubjectBars(document.getElementById('monthSubjectBars'), subjectAcc);
-      renderDailyTable(document.getElementById('monthDailyTable'), dayAcc, { start: startOfMonth, end: endOfMonth });
+
+      // Calendar
+      const cal = document.getElementById('calGrid');
+      cal.innerHTML = '';
+
+      // header row
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      DOW.forEach(d => { const th = document.createElement('th'); th.textContent = d; hr.appendChild(th); });
+      thead.appendChild(hr); cal.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const firstDay = startOfMonth.getDay(); // 0=Sun
+      const daysInMonth = new Date(y, m+1, 0).getDate();
+      const today = ymd(new Date());
+
+      let cells = [];
+      // leading blanks
+      for (let i=0; i<firstDay; i++) {
+        const prev = new Date(y, m, -firstDay+i+1);
+        cells.push({ date: prev, thisMonth: false });
+      }
+      for (let d=1; d<=daysInMonth; d++) cells.push({ date: new Date(y,m,d), thisMonth: true });
+      // trailing blanks to complete last row
+      while (cells.length % 7 !== 0) {
+        const next = new Date(y, m+1, cells.length - firstDay - daysInMonth + 1);
+        cells.push({ date: next, thisMonth: false });
+      }
+
+      for (let r=0; r<cells.length/7; r++) {
+        const tr = document.createElement('tr');
+        for (let c=0; c<7; c++) {
+          const { date, thisMonth } = cells[r*7+c];
+          const dk = ymd(date);
+          const sec = dayAcc[dk]||0;
+          const isToday = dk === today;
+          const isSel = dk === state.selectedDay;
+          const dow = date.getDay();
+
+          const td = document.createElement('td');
+          td.className = [
+            'cal-cell',
+            !thisMonth ? 'other-month' : '',
+            sec > 0 ? 'has-data' : '',
+            isToday ? 'is-today' : '',
+            isSel ? 'selected' : '',
+            dow === 0 ? 'sun' : '',
+            dow === 6 ? 'sat' : '',
+          ].join(' ').trim();
+
+          td.innerHTML = `
+            <div class="cal-day-num">${date.getDate()}</div>
+            <div class="cal-dot"></div>
+            ${sec > 0 ? `<div class="cal-time">${fmtShort(sec)}</div>` : ''}
+          `;
+
+          if (sec > 0) {
+            td.addEventListener('click', () => {
+              state.selectedDay = (state.selectedDay === dk) ? null : dk;
+              renderMonthly();
+            });
+          }
+
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+      cal.appendChild(tbody);
+
+      // Day detail panel
+      const panel = document.getElementById('dayDetail');
+      if (state.selectedDay && dayAcc[state.selectedDay]) {
+        const dayLogs = logs.filter(l => ymd(new Date(l.at)) === state.selectedDay);
+        const daySubAcc = aggregateBySubject(dayLogs);
+        const dayTotal = Object.values(daySubAcc).reduce((a,b)=>a+b,0);
+        const dateObj = new Date(state.selectedDay + 'T00:00:00');
+        document.getElementById('dayDetailTitle').textContent =
+          `${dateObj.getMonth()+1}월 ${dateObj.getDate()}일 (${DOW[dateObj.getDay()]}) — 총 ${fmtShort(dayTotal)}`;
+
+        const dg = document.getElementById('dayDetailGrid');
+        dg.innerHTML = '';
+        SUBJECTS.forEach(name => {
+          const sec = daySubAcc[name]||0;
+          if (!sec) return;
+          const el = document.createElement('div');
+          el.className = 'day-detail-item';
+          el.innerHTML = `<div class="dd-name">${name}</div><div class="dd-time">${fmt(sec)}</div>`;
+          dg.appendChild(el);
+        });
+        panel.classList.add('visible');
+      } else {
+        panel.classList.remove('visible');
+      }
     }
 
     // ── Init ──
