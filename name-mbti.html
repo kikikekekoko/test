@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 어떤 김경훈일까? · 이름 MBTI 테스트</title>
+<meta property="og:title" content="나는 어떤 김경훈일까?">
+<meta property="og:description" content="18개의 질문으로 알아보는 나의 유형. 이름 바꿔서 친구 버전으로도 해보세요!">
+<style>
+  :root{
+    --bg:#f6f4ff; --panel:#ffffff; --ink:#1c1b2e; --muted:#7b7896;
+    --line:#e8e5f5; --brand:#6c4df6; --brand2:#f65da3; --soft:#faf9ff;
+    --shadow:0 10px 40px rgba(80,50,180,.14); --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",
+      "Malgun Gothic","Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(1000px 600px at 50% -15%,#efe8ff,var(--bg)) fixed;
+    color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px 16px;
+  }
+  .stage{width:100%; max-width:600px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden;
+  }
+
+  /* intro */
+  .pad{padding:40px 32px}
+  .eyebrow{
+    color:var(--brand); font-weight:800; letter-spacing:.14em; font-size:12px;
+    text-align:center; margin-bottom:16px;
+  }
+  .bubble{
+    width:92px; height:92px; margin:0 auto 22px; border-radius:28px;
+    background:linear-gradient(140deg,var(--brand),var(--brand2));
+    display:flex; align-items:center; justify-content:center; font-size:44px;
+    box-shadow:0 10px 26px rgba(108,77,246,.36);
+  }
+  h1{font-size:29px; text-align:center; margin:0 0 8px; line-height:1.35; letter-spacing:-.02em}
+  h1 .em{
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .sub{text-align:center; color:var(--muted); font-size:15px; margin:0 0 24px}
+  .btn{
+    display:block; width:100%; padding:16px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff;
+    font-family:inherit; font-size:17px; font-weight:800; border-radius:15px;
+    letter-spacing:.01em; transition:transform .1s, filter .15s;
+    box-shadow:0 8px 20px rgba(108,77,246,.32);
+  }
+  .btn:hover{filter:brightness(1.06)} .btn:active{transform:translateY(1px)}
+  .btn.ghost{
+    background:transparent; color:var(--brand); border:1.5px solid var(--line);
+    box-shadow:none; font-size:15px; padding:13px; font-weight:700;
+  }
+  .meta-row{display:flex; gap:12px; justify-content:center; color:var(--muted);
+    font-size:12.5px; margin-top:18px; flex-wrap:wrap}
+
+  /* progress */
+  .prog-wrap{padding:22px 32px 0}
+  .prog-top{display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:13px; font-weight:600; margin-bottom:10px}
+  .prog{height:8px; background:var(--line); border-radius:99px; overflow:hidden}
+  .prog>i{display:block; height:100%; width:0;
+    background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .35s}
+
+  /* question */
+  .q{padding:24px 32px 36px}
+  .q .scene{color:var(--brand); font-size:12.5px; font-weight:800; letter-spacing:.04em}
+  .q h2{font-size:21px; line-height:1.5; margin:8px 0 24px; min-height:63px; letter-spacing:-.01em}
+  .opt{
+    display:block; width:100%; text-align:left; padding:17px 18px; margin-bottom:11px;
+    background:var(--soft); border:2px solid var(--line); border-radius:15px;
+    color:var(--ink); font-family:inherit; font-size:15.5px; font-weight:600;
+    cursor:pointer; transition:border .15s, transform .1s, background .15s;
+  }
+  .opt:hover{border-color:var(--brand); background:#f4f0ff}
+  .opt:active{transform:scale(.99)}
+
+  /* result */
+  .res{padding:0 0 32px; text-align:center}
+  .res-hero{
+    padding:36px 28px 30px;
+    background:linear-gradient(150deg,var(--brand),#8b5cf6 55%,var(--brand2));
+    color:#fff;
+  }
+  .res-emoji{font-size:66px; line-height:1; margin-bottom:8px}
+  .res-type{font-size:13px; letter-spacing:.22em; opacity:.9; font-weight:800}
+  .res-title{font-size:31px; font-weight:900; margin:6px 0 6px; letter-spacing:-.02em}
+  .res-tagline{font-size:15.5px; opacity:.95; margin:0}
+  .res-body{padding:26px 30px 6px; text-align:left}
+  .res-body .quote{
+    border-left:4px solid var(--brand2); padding:4px 0 4px 15px; color:var(--brand);
+    font-size:16px; font-weight:700; margin:0 0 16px;
+  }
+  .res-body p.desc{font-size:15.5px; margin:0 0 16px}
+  .traits{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 20px}
+  .trait{background:#f0ebff; color:var(--brand); border-radius:99px;
+    padding:6px 13px; font-size:13px; font-weight:800}
+  .compat{display:flex; gap:11px; padding:0 30px 6px; text-align:left}
+  .compat .cbox{flex:1; background:var(--soft); border:1px solid var(--line);
+    border-radius:14px; padding:14px}
+  .compat .clbl{font-size:11.5px; color:var(--muted); margin-bottom:4px; font-weight:700}
+  .compat .cval{font-size:15px; font-weight:800; line-height:1.4}
+  .compat .good .cval{color:#12a150} .compat .bad .cval{color:var(--brand2)}
+  .share{padding:22px 30px 0; display:grid; gap:10px}
+  .toast{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; padding:12px 20px; border-radius:99px;
+    font-size:14px; font-weight:600; opacity:0; transition:.25s;
+    pointer-events:none; z-index:9;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin-top:20px}
+  .hidden{display:none}
+  @media (max-width:480px){
+    .pad{padding:32px 22px} .q{padding:20px 22px 28px}
+    h1{font-size:25px} .res-title{font-size:27px}
+    .res-body,.compat,.share{padding-left:22px; padding-right:22px}
+    .compat{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- INTRO -->
+  <section class="card" id="intro">
+    <div class="pad">
+      <div class="eyebrow">N A M E　M B T I</div>
+      <div class="bubble">🙋</div>
+      <h1>나는 어떤<br><span class="em">김경훈</span>일까?</h1>
+      <p class="sub">18개의 질문으로 알아보는 내 안의 김경훈</p>
+      <button class="btn" id="startBtn">테스트 시작하기</button>
+      <div class="meta-row">
+        <span>⏱ 약 2분</span><span>·</span><span>🎭 16가지 유형</span><span>·</span><span>🔒 로그인 없음</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card hidden" id="quiz">
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="qcount">1 / 18</span><span>김경훈 찾는 중</span></div>
+      <div class="prog"><i id="progbar"></i></div>
+    </div>
+    <div class="q">
+      <div class="scene" id="scene"></div>
+      <h2 id="qtext"></h2>
+      <div id="opts"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card hidden" id="result">
+    <div class="res">
+      <div class="res-hero">
+        <div class="res-emoji" id="rEmoji">🙋</div>
+        <div class="res-type" id="rType">INTJ</div>
+        <div class="res-title" id="rTitle"></div>
+        <p class="res-tagline" id="rTagline"></p>
+      </div>
+      <div class="res-body">
+        <p class="quote" id="rQuote"></p>
+        <p class="desc" id="rDesc"></p>
+        <div class="traits" id="rTraits"></div>
+      </div>
+      <div class="compat">
+        <div class="cbox good"><div class="clbl">💛 잘 맞는 유형</div><div class="cval" id="rGood"></div></div>
+        <div class="cbox bad"><div class="clbl">⚡ 상극 유형</div><div class="cval" id="rBad"></div></div>
+      </div>
+      <div class="share">
+        <button class="btn" id="copyBtn">🔗 결과 링크 복사해서 친구에게</button>
+        <button class="btn ghost" id="retryBtn">다시 하기</button>
+      </div>
+      <div class="foot">캡처해서 친구에게 공유해보세요 · 이름 MBTI</div>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">복사됐어요! 친구에게 붙여넣기 하세요</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s)};
+  var NAME="김경훈";
+
+  // 18 questions: EI 5 / SN 5 / TF 5 / JP 3 (all odd -> no ties)
+  var Q=[
+    {axis:"EI",scene:"금요일 밤",q:"약속이 갑자기 취소됐다. 당신은?",
+     a:["다른 친구한테 바로 연락 돌린다","개꿀. 집에서 뒹굴 생각에 신난다"]},
+    {axis:"SN",scene:"처음 간 카페",q:"자리에 앉자마자 제일 먼저 눈에 들어오는 건?",
+     a:["메뉴판 가격이랑 뭐가 맛있나","여기 인테리어랑 분위기, 무슨 느낌인지"]},
+    {axis:"TF",scene:"친구의 하소연",q:"친구가 시험 망했다고 울상이다.",
+     a:["뭐가 문제였는지 같이 짚어본다","일단 무조건 편들어주고 위로한다"]},
+    {axis:"JP",scene:"여행 전날 밤",q:"내일 아침 출발인데 지금 상태는?",
+     a:["짐 다 쌌고 일정표까지 있다","내일 일어나서 대충 싸면 된다"]},
+    {axis:"EI",scene:"처음 간 모임",q:"아는 사람이 거의 없는 자리, 당신은?",
+     a:["먼저 말 걸면서 분위기 띄운다","아는 사람 옆에 딱 붙어 있는다"]},
+    {axis:"SN",scene:"영화가 끝나고",q:"엔딩크레딧 올라갈 때 드는 생각은?",
+     a:["아까 그 장면 진짜 잘 만들었다","감독이 결국 뭘 말하고 싶었던 걸까"]},
+    {axis:"TF",scene:"팀플의 위기",q:"팀원 하나가 연락 두절이다.",
+     a:["원칙대로 처리한다. 기여 안 하면 이름 빠져야지","일단 무슨 사정 있나 물어본다"]},
+    {axis:"JP",scene:"과제 마감",q:"마감이 다음 주다. 당신은?",
+     a:["미리 끝내놔야 마음이 편하다","마감 직전에 각성해서 몰아친다"]},
+    {axis:"EI",scene:"단톡방",q:"알림이 300개 쌓였다.",
+     a:["실시간으로 다 보고 바로 낀다","조용히 읽고 필요할 때만 말한다"]},
+    {axis:"SN",scene:"설명을 들을 때",q:"뭔가 새로 배울 때 더 잘 이해되는 쪽은?",
+     a:["실제 예시로 보여줄 때","원리부터 알려줄 때"]},
+    {axis:"TF",scene:"솔직 타임",q:"친구가 새로 산 옷, 솔직히 별로다.",
+     a:["솔직하게 말해준다. 그게 진짜 친구지","좋은 부분 찾아서 돌려 말한다"]},
+    {axis:"EI",scene:"기 빨린 날",q:"에너지가 바닥났다. 어떻게 충전하나?",
+     a:["사람 만나서 수다 떨면 풀린다","혼자 누워서 아무것도 안 해야 산다"]},
+    {axis:"SN",scene:"멍 때릴 때",q:"머릿속에 주로 떠오르는 건?",
+     a:["오늘 할 일, 저녁 뭐 먹지","만약에 내가 로또 되면 어떻게 될까"]},
+    {axis:"TF",scene:"칭찬할 때",q:"친구가 뭔가 해냈다. 첫마디는?",
+     a:["결과 진짜 잘 나왔다!","진짜 고생 많았다!"]},
+    {axis:"EI",scene:"여행지에서",q:"낯선 곳에 도착했다.",
+     a:["현지 사람들이랑 어울리다 친해진다","혼자 다니는 게 제일 편하다"]},
+    {axis:"SN",scene:"계획을 짤 때",q:"여행 계획 짜는 스타일은?",
+     a:["동선이랑 시간까지 구체적으로","가고 싶은 곳이랑 느낌만 대충"]},
+    {axis:"TF",scene:"의견이 갈릴 때",q:"토론이 격해졌다. 더 신경 쓰이는 건?",
+     a:["누구 말이 맞는지 결론이 중요","분위기 상하는 게 더 싫다"]},
+    {axis:"JP",scene:"계획이 틀어졌다",q:"갑자기 일정이 확 바뀌었다.",
+     a:["스트레스 받는다. 다시 짜야 한다","오히려 좋아. 새로운 거 해보지 뭐"]}
+  ];
+
+  // {N} is replaced with the entered name
+  var R={
+    INTJ:{e:"🧠",t:"다 계획이 있는 {N}",tag:"머릿속에 이미 세 수 앞이 그려져 있음",
+      quote:"“어, 그거 내가 이미 생각해뒀어.”",
+      desc:"말은 아껴도 머릿속에서는 이미 시뮬레이션이 다 끝나 있는 타입. 즉흥적인 걸 싫어하고, 목표가 생기면 조용히 끝까지 갑니다. 다만 혼자 다 계산하고 결론만 말해서 주변이 못 따라올 때가 있어요.",
+      traits:["#계획왕","#효율충","#말보다실행","#혼자다함"],
+      good:"인싸 {N} (ENFP)",bad:"파티피플 {N} (ESFP)"},
+    INTP:{e:"🛋️",t:"방구석 천재 {N}",tag:"침대에 누워 우주를 생각하는 사람",
+      quote:"“근데 그게 왜 그렇게 되는 거지?”",
+      desc:"궁금한 건 새벽 3시까지 파고드는데 정작 방 청소는 안 하는 타입. 아이디어는 넘치지만 실행까지 가는 길이 멀어요. 쓸데없는 지식이 많아서 가끔 무섭게 똑똑해 보입니다.",
+      traits:["#호기심폭발","#귀차니즘","#논리충","#새벽형인간"],
+      good:"드립 장인 {N} (ENTP)",bad:"오지랖 {N} (ESFJ)"},
+    ENTJ:{e:"💼",t:"사장님 {N}",tag:"모임 총무는 항상 이 사람",
+      quote:"“자, 정리하자. 그래서 결론이 뭐야?”",
+      desc:"어딜 가도 자연스럽게 판을 주도하는 타입. 목표가 서면 사람이든 일정이든 착착 굴려서 결국 해냅니다. 추진력이 강한 만큼 가끔 너무 몰아쳐서 주변이 숨차할 수 있어요.",
+      traits:["#리더","#추진력甲","#결론중시","#일잘러"],
+      good:"감성 충만 {N} (INFP)",bad:"힙한 {N} (ISFP)"},
+    ENTP:{e:"🎤",t:"드립 장인 {N}",tag:"진지한 자리도 웃기고 마는 사람",
+      quote:"“아니 근데 반대로 생각해보면 말이야.”",
+      desc:"말빨과 순발력이 무기인 타입. 어떤 주제든 자기만의 각도로 비틀어서 재밌게 만듭니다. 시작은 화려한데 마무리가 아쉬울 때가 있어서, 끝까지 가는 힘만 붙으면 무적이에요.",
+      traits:["#드립력","#임기응변","#아이디어뱅크","#질림주의"],
+      good:"챙겨주는 {N} (ISFJ)",bad:"FM {N} (ISTJ)"},
+    INFJ:{e:"🌙",t:"속 깊은 {N}",tag:"말 안 해도 다 알아채는 사람",
+      quote:"“너 오늘 무슨 일 있었지?”",
+      desc:"조용한데 사람 마음을 이상하리만치 잘 읽는 타입. 진짜 친해지기까지 오래 걸리지만 한번 마음 주면 끝까지 갑니다. 남 걱정 다 짊어지다 혼자 지칠 수 있으니 본인부터 챙기세요.",
+      traits:["#통찰력","#소수정예","#감정노동","#은근고집"],
+      good:"일단 GO {N} (ESTP)",bad:"팀장 {N} (ESTJ)"},
+    INFP:{e:"🎧",t:"감성 충만 {N}",tag:"노래 한 곡에 하루가 좌우되는 사람",
+      quote:"“그냥… 뭔가 그런 느낌이 들어서.”",
+      desc:"겉으론 순해 보여도 안에는 자기만의 확고한 세계가 있는 타입. 좋아하는 것에는 진심이고, 아닌 건 절대 못 합니다. 현실적인 계산이 약해서 손해 볼 때가 있으니 든든한 친구가 필요해요.",
+      traits:["#감수성","#마이웨이","#진심충","#상처잘받음"],
+      good:"사장님 {N} (ENTJ)",bad:"팀장 {N} (ESTJ)"},
+    ENFJ:{e:"🫶",t:"반장 {N}",tag:"모두를 챙기다 자기를 잊는 사람",
+      quote:"“괜찮아? 밥은 먹었고?”",
+      desc:"분위기를 읽고 사람들을 하나로 묶는 데 천재적인 타입. 누가 소외되면 제일 먼저 알아채고 챙깁니다. 남 챙기느라 정작 본인 힘든 건 말 안 하니, 가끔은 기대도 괜찮아요.",
+      traits:["#분위기메이커","#인간체온계","#책임감","#착한사람증후군"],
+      good:"다 계획이 있는 {N} (INTJ)",bad:"만능손 {N} (ISTP)"},
+    ENFP:{e:"🎉",t:"인싸 {N}",tag:"어디 가도 아는 사람 나오는 사람",
+      quote:"“야 그거 완전 재밌겠다! 우리 하자!”",
+      desc:"에너지가 넘쳐서 주변까지 들뜨게 만드는 타입. 새로운 사람, 새로운 일에 겁이 없습니다. 다만 관심사가 자주 갈아타니, 한 가지만 진득하게 파면 진짜 크게 터져요.",
+      traits:["#에너지뱅크","#인맥왕","#금사빠","#작심삼일"],
+      good:"FM {N} (ISTJ)",bad:"방구석 천재 {N} (INTP)"},
+    ISTJ:{e:"📋",t:"FM {N}",tag:"약속 시간 10분 전 도착하는 사람",
+      quote:"“원래 하기로 했잖아.”",
+      desc:"말한 건 반드시 지키고, 맡은 건 빈틈없이 해내는 타입. 이 사람이 한다고 하면 그냥 되는 거예요. 다만 원칙이 강해서 융통성이 조금만 더 있으면 사람들이 훨씬 편해합니다.",
+      traits:["#신뢰甲","#시간엄수","#꼼꼼","#원칙주의"],
+      good:"인싸 {N} (ENFP)",bad:"드립 장인 {N} (ENTP)"},
+    ISFJ:{e:"🧸",t:"챙겨주는 {N}",tag:"티 안 나게 다 해놓는 사람",
+      quote:"“어, 그거 내가 미리 해놨어.”",
+      desc:"누가 알아주지 않아도 조용히 챙기는 타입. 기억력이 좋아서 남들 생일이며 취향이며 다 알고 있습니다. 거절을 잘 못 해서 혼자 떠안는 일이 많으니, 가끔은 싫다고 해도 돼요.",
+      traits:["#은근살뜰","#기억력甲","#거절못함","#든든이"],
+      good:"드립 장인 {N} (ENTP)",bad:"일단 GO {N} (ESTP)"},
+    ESTJ:{e:"📣",t:"팀장 {N}",tag:"단톡방 공지를 담당하는 사람",
+      quote:"“자, 그럼 이렇게 가는 걸로.”",
+      desc:"흐지부지되는 걸 못 견디고 기어이 정리해서 굴리는 타입. 현실 감각과 실행력이 뛰어나 어디서든 중심을 잡습니다. 여기에 공감 한 스푼만 더하면 진짜 따르고 싶은 사람이 돼요.",
+      traits:["#조직력","#추진력","#현실주의","#팩폭주의"],
+      good:"감성 충만 {N} (INFP)",bad:"속 깊은 {N} (INFJ)"},
+    ESFJ:{e:"☎️",t:"오지랖 {N}",tag:"모든 소식의 출처인 사람",
+      quote:"“야 너 그 얘기 들었어?”",
+      desc:"사람 사이를 잇는 데 최고인 타입. 모임 만들고 챙기고 연결하는 게 자연스럽습니다. 진심으로 잘해주는 만큼 알아주길 바라는 마음도 커서 서운함을 잘 타요.",
+      traits:["#마당발","#정이많음","#소식통","#서운함감지"],
+      good:"방구석 천재 {N} (INTP)",bad:"감성 충만 {N} (INFP)"},
+    ISTP:{e:"🔧",t:"만능손 {N}",tag:"말없이 뚝딱 고쳐놓는 사람",
+      quote:"“…해봤는데 되던데?”",
+      desc:"말수는 적은데 손대면 어떻게든 되게 만드는 타입. 위급할 때 제일 침착한 사람이 보통 이 유형입니다. 표현이 서툴 뿐 속은 깊으니, 가끔 말로도 해주면 오해가 확 줄어요.",
+      traits:["#손재주","#침착함","#과묵","#은근다정"],
+      good:"반장 {N} (ENFJ)",bad:"반장 {N} (ENFJ)"},
+    ISFP:{e:"🎨",t:"힙한 {N}",tag:"조용한데 취향은 확실한 사람",
+      quote:"“난 그냥 이게 좋아서.”",
+      desc:"자기 취향이 뚜렷하고 감각이 좋은 타입. 나서지는 않지만 하는 것마다 묘하게 멋있습니다. 경쟁보다 평화를 원해서 손해를 보기도 하니, 좀 더 드러내도 괜찮아요.",
+      traits:["#감각甲","#조용한개성","#평화주의","#은근고집"],
+      good:"사장님 {N} (ENTJ)",bad:"사장님 {N} (ENTJ)"},
+    ESTP:{e:"🔥",t:"일단 GO {N}",tag:"생각보다 몸이 먼저 나가는 사람",
+      quote:"“고민할 시간에 그냥 하자.”",
+      desc:"결정이 빠르고 겁이 없는 행동파. 남들이 재고 있을 때 이미 저질러서 결과를 만들어 옵니다. 위기에서 오히려 빛나는 배포가 있으니, 앞뒤만 조금 재면 진짜 무섭습니다.",
+      traits:["#행동력","#배포","#승부사","#지르고봄"],
+      good:"속 깊은 {N} (INFJ)",bad:"챙겨주는 {N} (ISFJ)"},
+    ESFP:{e:"🕺",t:"파티피플 {N}",tag:"이 사람 오면 자리가 살아남",
+      quote:"“인생 뭐 있어, 지금이 제일 중요하지!”",
+      desc:"분위기를 순식간에 끌어올리는 타입. 웃기고 밝고 눈치도 빨라서 어디서든 사랑받습니다. 지금 이 순간에 충실한 게 매력이지만, 가끔 앞날도 챙기면 그 매력이 오래가요.",
+      traits:["#인기폭발","#텐션甲","#현재충","#분위기메이커"],
+      good:"다 계획이 있는 {N} (INTJ)",bad:"다 계획이 있는 {N} (INTJ)"}
+  };
+
+  var idx=0, score={EI:0,SN:0,TF:0,JP:0};
+
+  function fill(s){ return s.replace(/\{N\}/g, NAME); }
+
+  function render(){
+    var item=Q[idx];
+    $("#scene").textContent="# "+item.scene;
+    $("#qtext").textContent=item.q;
+    $("#qcount").textContent=(idx+1)+" / "+Q.length;
+    $("#progbar").style.width=(idx/Q.length*100)+"%";
+    var box=$("#opts"); box.innerHTML="";
+    item.a.forEach(function(text,i){
+      var b=document.createElement("button");
+      b.className="opt"; b.textContent=text;
+      b.onclick=function(){ pick(item.axis, i===0); };
+      box.appendChild(b);
+    });
+  }
+  function pick(axis,isFirst){
+    if(isFirst) score[axis]++; else score[axis]--;
+    idx++;
+    if(idx<Q.length) render(); else finish();
+  }
+  function finish(){
+    var type=(score.EI>=0?"E":"I")+(score.SN>=0?"S":"N")+
+             (score.TF>=0?"T":"F")+(score.JP>=0?"J":"P");
+    var r=R[type];
+    $("#progbar").style.width="100%";
+    $("#rEmoji").textContent=r.e;
+    $("#rType").textContent=type;
+    $("#rTitle").textContent=fill(r.t);
+    $("#rTagline").textContent=r.tag;
+    $("#rQuote").textContent=r.quote;
+    $("#rDesc").textContent=r.desc;
+    $("#rGood").textContent=fill(r.good);
+    $("#rBad").textContent=fill(r.bad);
+    var tw=$("#rTraits"); tw.innerHTML="";
+    r.traits.forEach(function(t){
+      var s=document.createElement("span"); s.className="trait"; s.textContent=t; tw.appendChild(s);
+    });
+    show("#result");
+    try{ location.hash=type; }catch(e){}
+    window.scrollTo(0,0);
+  }
+  function show(sel){
+    ["#intro","#quiz","#result"].forEach(function(s){ $(s).classList.add("hidden"); });
+    $(sel).classList.remove("hidden");
+  }
+  $("#startBtn").onclick=function(){
+    idx=0; score={EI:0,SN:0,TF:0,JP:0};
+    render(); show("#quiz");
+  };
+  $("#retryBtn").onclick=function(){
+    idx=0; score={EI:0,SN:0,TF:0,JP:0};
+    try{location.hash="";}catch(e){}
+    show("#intro");
+  };
+  $("#copyBtn").onclick=function(){
+    var t=$("#rTitle").textContent;
+    var msg="나는 ["+t+"]! 너는 어떤 "+NAME+"인지 해봐 👉 "+location.href;
+    var done=function(){
+      var el=$("#toast"); el.classList.add("show");
+      setTimeout(function(){el.classList.remove("show");},2200);
+    };
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(done,function(){ prompt("아래 내용을 복사하세요:",msg); });
+    } else { prompt("아래 내용을 복사하세요:",msg); }
+  };
+})();
+</script>
+</body>
+</html>
