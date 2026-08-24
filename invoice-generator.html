@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인보이스 생성기 · Invoice Maker</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --panel:#ffffff; --ink:#1a1d24; --muted:#6b7280;
+    --line:#e5e7eb; --brand:#2563eb; --brand-ink:#ffffff; --soft:#f9fafb;
+    --accent:#0f172a; --danger:#dc2626; --ok:#16a34a; --radius:14px;
+    --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0d1117; --panel:#161b22; --ink:#e6edf3; --muted:#8b949e;
+      --line:#30363d; --brand:#3b82f6; --soft:#0d1117; --accent:#e6edf3;
+      --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo",
+      "Malgun Gothic",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{display:grid; grid-template-columns:minmax(340px,420px) 1fr; min-height:100vh}
+  @media (max-width:980px){ .app{grid-template-columns:1fr} }
+
+  /* ---------- Editor panel ---------- */
+  .editor{
+    background:var(--panel); border-right:1px solid var(--line);
+    padding:22px 22px 120px; overflow-y:auto; max-height:100vh;
+  }
+  .brandbar{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+  .logo-dot{width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--brand),#7c3aed);flex:0 0 auto}
+  .brandbar h1{font-size:17px; margin:0; letter-spacing:-.01em}
+  .brandbar small{color:var(--muted); font-weight:500}
+  .hint{color:var(--muted); font-size:12.5px; margin:4px 0 18px}
+
+  .group{margin-bottom:20px}
+  .group h2{font-size:12px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--muted); margin:0 0 10px}
+  label{display:block; font-size:12px; color:var(--muted); margin:0 0 4px}
+  .field{margin-bottom:10px}
+  input,textarea,select{
+    width:100%; padding:9px 11px; border:1px solid var(--line); border-radius:9px;
+    background:var(--soft); color:var(--ink); font-size:14px; font-family:inherit;
+    transition:border .15s, box-shadow .15s;
+  }
+  input:focus,textarea:focus,select:focus{
+    outline:none; border-color:var(--brand);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent);
+  }
+  textarea{resize:vertical; min-height:60px}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px}
+
+  /* line items */
+  .items-head,.item-row{
+    display:grid; grid-template-columns:1fr 66px 92px 32px; gap:8px; align-items:center;
+  }
+  .items-head{font-size:11px; color:var(--muted); margin-bottom:6px; padding:0 2px}
+  .items-head .r{text-align:right}
+  .item-row{margin-bottom:8px}
+  .item-row input{padding:8px 9px}
+  .item-row .num{text-align:right}
+  .del{
+    border:none; background:transparent; color:var(--muted); cursor:pointer;
+    font-size:18px; line-height:1; padding:6px; border-radius:8px;
+  }
+  .del:hover{color:var(--danger); background:color-mix(in srgb,var(--danger) 12%,transparent)}
+  .add{
+    margin-top:2px; width:100%; padding:9px; border:1px dashed var(--line);
+    background:transparent; color:var(--brand); border-radius:9px; cursor:pointer;
+    font-size:13px; font-weight:600;
+  }
+  .add:hover{background:color-mix(in srgb,var(--brand) 8%,transparent)}
+
+  .actions{
+    position:fixed; bottom:0; left:0; width:minmax(340px,420px);
+    max-width:420px; background:var(--panel); border-top:1px solid var(--line);
+    border-right:1px solid var(--line); padding:12px 22px;
+    display:flex; gap:10px;
+  }
+  @media (max-width:980px){ .actions{position:static; width:auto; border-right:none} }
+  .btn{
+    flex:1; padding:11px; border-radius:10px; border:1px solid var(--line);
+    background:var(--soft); color:var(--ink); font-size:14px; font-weight:600;
+    cursor:pointer;
+  }
+  .btn.primary{background:var(--brand); color:var(--brand-ink); border-color:var(--brand)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn:hover{filter:brightness(.98)}
+
+  /* ---------- Preview ---------- */
+  .preview-wrap{padding:30px; overflow-y:auto; max-height:100vh; background:var(--bg)}
+  .paper{
+    background:#fff; color:#1a1d24; width:100%; max-width:820px; margin:0 auto;
+    border-radius:12px; box-shadow:var(--shadow); padding:52px 56px;
+  }
+  .inv-top{display:flex; justify-content:space-between; align-items:flex-start; gap:20px}
+  .inv-top .title{font-size:34px; font-weight:800; letter-spacing:-.02em; margin:0;
+    color:var(--brand)}
+  .biz-name{font-size:18px; font-weight:700; margin:0 0 2px}
+  .muted-p{color:#6b7280; font-size:13px; white-space:pre-line; margin:0}
+  .meta{margin-top:6px; text-align:right; font-size:13px; color:#4b5563}
+  .meta b{color:#1a1d24}
+  .split{display:flex; justify-content:space-between; gap:24px; margin:34px 0 8px}
+  .split .box{flex:1}
+  .box .lbl{font-size:11px; text-transform:uppercase; letter-spacing:.08em;
+    color:#9ca3af; margin-bottom:6px}
+  .box .who{font-size:15px; font-weight:700; margin:0 0 2px}
+
+  table.lines{width:100%; border-collapse:collapse; margin-top:22px}
+  table.lines th{
+    text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:#6b7280; border-bottom:2px solid #1a1d24; padding:9px 6px;
+  }
+  table.lines th.r,table.lines td.r{text-align:right}
+  table.lines td{padding:11px 6px; border-bottom:1px solid #eceef1; font-size:14px; vertical-align:top}
+  table.lines td.desc{font-weight:500}
+
+  .totals{margin-left:auto; width:280px; margin-top:18px}
+  .totals .tr{display:flex; justify-content:space-between; padding:6px 6px; font-size:14px}
+  .totals .tr.grand{
+    border-top:2px solid #1a1d24; margin-top:6px; padding-top:12px;
+    font-size:18px; font-weight:800; color:var(--brand);
+  }
+  .totals .tr .g-lbl{color:#6b7280}
+  .notes{margin-top:34px; padding-top:18px; border-top:1px solid #eceef1}
+  .notes .lbl{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#9ca3af; margin-bottom:6px}
+  .notes p{font-size:13px; color:#4b5563; white-space:pre-line; margin:0}
+  .foot{margin-top:26px; text-align:center; font-size:12px; color:#9ca3af}
+
+  .empty-line td{color:#c0c4cc}
+
+  /* ---------- Print ---------- */
+  @media print{
+    @page{margin:14mm}
+    body{background:#fff}
+    .editor,.actions,.no-print{display:none !important}
+    .app{display:block}
+    .preview-wrap{padding:0; max-height:none; overflow:visible; background:#fff}
+    .paper{box-shadow:none; border-radius:0; max-width:none; padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ============ EDITOR ============ -->
+  <aside class="editor">
+    <div class="brandbar">
+      <div class="logo-dot"></div>
+      <div>
+        <h1>인보이스 생성기</h1>
+        <small>Invoice Maker · 저장·인쇄·PDF</small>
+      </div>
+    </div>
+    <p class="hint">입력하면 오른쪽에 실시간 반영됩니다. 정보는 이 브라우저에 자동 저장돼요.</p>
+
+    <div class="group">
+      <h2>내 정보 (발행자)</h2>
+      <div class="field"><label>상호 / 이름</label><input id="bizName" placeholder="예) 홍길동 스튜디오"></div>
+      <div class="field"><label>주소·연락처·사업자번호</label><textarea id="bizInfo" placeholder="서울시 …&#10;010-0000-0000&#10;사업자등록번호 000-00-00000"></textarea></div>
+      <div class="field"><label>이메일</label><input id="bizEmail" placeholder="hello@example.com"></div>
+    </div>
+
+    <div class="group">
+      <h2>청구 대상 (수신자)</h2>
+      <div class="field"><label>상호 / 이름</label><input id="cliName" placeholder="예) (주)클라이언트"></div>
+      <div class="field"><label>주소·담당자·연락처</label><textarea id="cliInfo" placeholder="회사 주소 / 담당자명 / 연락처"></textarea></div>
+    </div>
+
+    <div class="group">
+      <h2>청구서 정보</h2>
+      <div class="row2">
+        <div class="field"><label>청구서 번호</label><input id="invNo" placeholder="INV-0001"></div>
+        <div class="field"><label>통화</label>
+          <select id="currency">
+            <option value="₩|0|앞">₩ 원 (KRW)</option>
+            <option value="$|2|앞">$ 달러 (USD)</option>
+            <option value="€|2|앞">€ 유로 (EUR)</option>
+            <option value="£|2|앞">£ 파운드 (GBP)</option>
+            <option value="¥|0|앞">¥ 엔 (JPY)</option>
+            <option value="₹|2|앞">₹ 루피 (INR)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>발행일</label><input id="issueDate" type="date"></div>
+        <div class="field"><label>지급 기한</label><input id="dueDate" type="date"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>항목</h2>
+      <div class="items-head">
+        <span>내용</span><span class="r">수량</span><span class="r">단가</span><span></span>
+      </div>
+      <div id="items"></div>
+      <button class="add" id="addItem">＋ 항목 추가</button>
+    </div>
+
+    <div class="group">
+      <h2>세금 · 할인</h2>
+      <div class="row2">
+        <div class="field"><label>세율 (%) — 부가세 등</label><input id="taxRate" type="number" min="0" step="0.1" placeholder="10"></div>
+        <div class="field"><label>할인 (금액)</label><input id="discount" type="number" min="0" step="1" placeholder="0"></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>메모 · 결제 안내</h2>
+      <div class="field"><textarea id="notes" placeholder="예) 입금 계좌: 국민 000000-00-000000 (예금주 홍길동)&#10;세금계산서 발행 가능합니다. 감사합니다."></textarea></div>
+    </div>
+  </aside>
+
+  <!-- ============ PREVIEW ============ -->
+  <main class="preview-wrap">
+    <div class="paper" id="paper">
+      <div class="inv-top">
+        <div>
+          <p class="biz-name" id="p-bizName">내 상호</p>
+          <p class="muted-p" id="p-bizInfo"></p>
+          <p class="muted-p" id="p-bizEmail"></p>
+        </div>
+        <div style="text-align:right">
+          <h2 class="title">INVOICE</h2>
+          <div class="meta">
+            <div>No. <b id="p-invNo">INV-0001</b></div>
+            <div>발행일 <b id="p-issue">—</b></div>
+            <div>지급기한 <b id="p-due">—</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split">
+        <div class="box">
+          <div class="lbl">청구 대상 · Bill To</div>
+          <p class="who" id="p-cliName">수신자</p>
+          <p class="muted-p" id="p-cliInfo"></p>
+        </div>
+      </div>
+
+      <table class="lines">
+        <thead>
+          <tr><th>내용</th><th class="r">수량</th><th class="r">단가</th><th class="r">금액</th></tr>
+        </thead>
+        <tbody id="p-lines"></tbody>
+      </table>
+
+      <div class="totals">
+        <div class="tr"><span class="g-lbl">소계</span><span id="p-subtotal">—</span></div>
+        <div class="tr" id="p-taxRow"><span class="g-lbl">세금</span><span id="p-tax">—</span></div>
+        <div class="tr" id="p-discRow"><span class="g-lbl">할인</span><span id="p-disc">—</span></div>
+        <div class="tr grand"><span>합계</span><span id="p-grand">—</span></div>
+      </div>
+
+      <div class="notes" id="p-notesWrap">
+        <div class="lbl">메모 · Notes</div>
+        <p id="p-notes"></p>
+      </div>
+
+      <div class="foot">이 청구서는 인보이스 생성기로 작성되었습니다.</div>
+    </div>
+  </main>
+</div>
+
+<div class="actions">
+  <button class="btn" id="resetBtn">초기화</button>
+  <button class="btn primary" id="printBtn">인쇄 / PDF 저장</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var KEY = "invoice_maker_v1";
+
+  var textFields = ["bizName","bizInfo","bizEmail","cliName","cliInfo",
+    "invNo","currency","issueDate","dueDate","taxRate","discount","notes"];
+
+  var state = { items: [] };
+
+  /* ---------- currency ---------- */
+  function curConf(){
+    var raw = $("currency").value.split("|");
+    return { sym: raw[0], dp: parseInt(raw[1],10) };
+  }
+  function money(n){
+    var c = curConf();
+    if(isNaN(n)) n = 0;
+    var s = n.toLocaleString("en-US",{minimumFractionDigits:c.dp, maximumFractionDigits:c.dp});
+    return c.sym + " " + s;
+  }
+
+  /* ---------- items ---------- */
+  function itemRow(item, idx){
+    var row = document.createElement("div");
+    row.className = "item-row";
+    row.innerHTML =
+      '<input class="i-desc" placeholder="작업/상품 내용">'+
+      '<input class="i-qty num" type="number" min="0" step="1" placeholder="1">'+
+      '<input class="i-price num" type="number" min="0" step="1" placeholder="0">'+
+      '<button class="del" title="삭제">×</button>';
+    row.querySelector(".i-desc").value = item.desc || "";
+    row.querySelector(".i-qty").value = item.qty === undefined ? "" : item.qty;
+    row.querySelector(".i-price").value = item.price === undefined ? "" : item.price;
+    row.querySelector(".i-desc").addEventListener("input", function(e){ state.items[idx].desc = e.target.value; render(); save(); });
+    row.querySelector(".i-qty").addEventListener("input", function(e){ state.items[idx].qty = e.target.value; render(); save(); });
+    row.querySelector(".i-price").addEventListener("input", function(e){ state.items[idx].price = e.target.value; render(); save(); });
+    row.querySelector(".del").addEventListener("click", function(){
+      state.items.splice(idx,1);
+      if(state.items.length===0) state.items.push({desc:"",qty:"",price:""});
+      buildItems(); render(); save();
+    });
+    return row;
+  }
+  function buildItems(){
+    var wrap = $("items");
+    wrap.innerHTML = "";
+    state.items.forEach(function(it, i){ wrap.appendChild(itemRow(it, i)); });
+  }
+
+  /* ---------- render preview ---------- */
+  function esc(t){ return (t||"").replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function fmtDate(v){
+    if(!v) return "—";
+    var d = new Date(v+"T00:00:00");
+    if(isNaN(d)) return v;
+    return d.getFullYear()+". "+(d.getMonth()+1)+". "+d.getDate()+".";
+  }
+
+  function render(){
+    $("p-bizName").textContent = $("bizName").value || "내 상호";
+    $("p-bizInfo").textContent = $("bizInfo").value;
+    $("p-bizEmail").textContent = $("bizEmail").value;
+    $("p-cliName").textContent = $("cliName").value || "수신자";
+    $("p-cliInfo").textContent = $("cliInfo").value;
+    $("p-invNo").textContent = $("invNo").value || "INV-0001";
+    $("p-issue").textContent = fmtDate($("issueDate").value);
+    $("p-due").textContent = fmtDate($("dueDate").value);
+
+    var body = $("p-lines"); body.innerHTML = "";
+    var subtotal = 0, hasReal = false;
+    state.items.forEach(function(it){
+      var q = parseFloat(it.qty)||0, p = parseFloat(it.price)||0, amt = q*p;
+      subtotal += amt;
+      var tr = document.createElement("tr");
+      if(!(it.desc||q||p)){
+        tr.className = "empty-line";
+        tr.innerHTML = '<td class="desc">항목을 입력하세요</td><td class="r">—</td><td class="r">—</td><td class="r">—</td>';
+      } else {
+        hasReal = true;
+        tr.innerHTML = '<td class="desc">'+esc(it.desc||"—")+'</td>'+
+          '<td class="r">'+(q||0)+'</td>'+
+          '<td class="r">'+money(p)+'</td>'+
+          '<td class="r">'+money(amt)+'</td>';
+      }
+      body.appendChild(tr);
+    });
+    if(state.items.length===0){
+      var tr=document.createElement("tr"); tr.className="empty-line";
+      tr.innerHTML='<td class="desc">항목을 입력하세요</td><td class="r">—</td><td class="r">—</td><td class="r">—</td>';
+      body.appendChild(tr);
+    }
+
+    var taxRate = parseFloat($("taxRate").value)||0;
+    var discount = parseFloat($("discount").value)||0;
+    var tax = subtotal * taxRate/100;
+    var grand = subtotal + tax - discount;
+    if(grand < 0) grand = 0;
+
+    $("p-subtotal").textContent = money(subtotal);
+    $("p-tax").textContent = money(tax);
+    $("p-taxRow").style.display = taxRate ? "flex" : "none";
+    $("p-disc").textContent = "− " + money(discount);
+    $("p-discRow").style.display = discount ? "flex" : "none";
+    $("p-grand").textContent = money(grand);
+
+    var notes = $("notes").value;
+    $("p-notes").textContent = notes;
+    $("p-notesWrap").style.display = notes ? "block" : "none";
+  }
+
+  /* ---------- persistence ---------- */
+  function save(){
+    try{
+      var data = { items: state.items, fields: {} };
+      textFields.forEach(function(f){ data.fields[f] = $(f).value; });
+      localStorage.setItem(KEY, JSON.stringify(data));
+    }catch(e){}
+  }
+  function load(){
+    var data = null;
+    try{ data = JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+    if(data && data.fields){
+      textFields.forEach(function(f){ if(data.fields[f]!==undefined) $(f).value = data.fields[f]; });
+      state.items = (data.items && data.items.length) ? data.items : [{desc:"",qty:"",price:""}];
+    } else {
+      // sensible defaults
+      state.items = [{desc:"",qty:"1",price:""}];
+      $("invNo").value = "INV-0001";
+      $("taxRate").value = "10";
+      var t = new Date();
+      $("issueDate").value = t.toISOString().slice(0,10);
+      var due = new Date(t.getTime()+14*864e5);
+      $("dueDate").value = due.toISOString().slice(0,10);
+    }
+  }
+
+  /* ---------- wire up ---------- */
+  textFields.forEach(function(f){
+    $(f).addEventListener("input", function(){ render(); save(); });
+    $(f).addEventListener("change", function(){ render(); save(); });
+  });
+  $("addItem").addEventListener("click", function(){
+    state.items.push({desc:"",qty:"1",price:""}); buildItems(); render(); save();
+  });
+  $("printBtn").addEventListener("click", function(){ window.print(); });
+  $("resetBtn").addEventListener("click", function(){
+    if(!confirm("모든 입력을 지우고 초기화할까요?")) return;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    location.reload();
+  });
+
+  load(); buildItems(); render();
+})();
+</script>
+</body>
+</html>
