@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>좀비 아포칼립스 MBTI · 당신의 생존 유형은?</title>
+<meta property="og:title" content="좀비 사태가 터졌다. 당신은 며칠 버틸까? — 생존 MBTI">
+<meta property="og:description" content="8개의 선택으로 알아보는 나의 생존 유형과 생존 확률!">
+<style>
+  :root{
+    --bg:#0b0f0c; --panel:#121813; --ink:#e7f0e8; --muted:#8fa393;
+    --line:#243026; --brand:#3fae54; --danger:#e0442e; --warn:#e8b73a;
+    --shadow:0 12px 48px rgba(0,0,0,.6); --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,
+      "Segoe UI",Roboto,sans-serif;
+    background:
+      radial-gradient(900px 500px at 50% -5%, #16241a, var(--bg)) fixed;
+    color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px 16px;
+  }
+  .stage{width:100%; max-width:600px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden; position:relative;
+  }
+
+  .pad{padding:40px 34px}
+  .eyebrow{color:var(--danger); font-weight:800; letter-spacing:.2em; font-size:12.5px;
+    text-align:center; margin-bottom:16px}
+  .biohazard{
+    width:96px;height:96px;margin:6px auto 20px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:48px;
+    background:radial-gradient(circle at 50% 40%, #1c2b1f, #0c130e);
+    border:3px solid var(--danger); box-shadow:0 0 32px rgba(224,68,46,.35);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{box-shadow:0 0 24px rgba(224,68,46,.25)}50%{box-shadow:0 0 40px rgba(224,68,46,.5)}}
+  h1{font-size:29px; text-align:center; margin:0 0 8px; line-height:1.32; letter-spacing:-.01em}
+  h1 .em{color:var(--danger)}
+  .sub{text-align:center; color:var(--muted); font-size:15px; margin:0 0 28px}
+  .btn{
+    display:block; width:100%; padding:16px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,var(--danger),#b5321f); color:#fff;
+    font-family:inherit; font-size:17px; font-weight:800; border-radius:14px;
+    letter-spacing:.02em; transition:transform .1s, filter .15s;
+    box-shadow:0 8px 22px rgba(224,68,46,.3);
+  }
+  .btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)}
+  .btn.green{background:linear-gradient(135deg,var(--brand),#2c8540); box-shadow:0 8px 22px rgba(63,174,84,.3)}
+  .btn.ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line);
+    box-shadow:none; font-size:15px; padding:13px}
+  .meta-row{display:flex; gap:12px; justify-content:center; color:var(--muted);
+    font-size:13px; margin-top:18px; flex-wrap:wrap}
+
+  .prog-wrap{padding:22px 34px 0}
+  .prog-top{display:flex; justify-content:space-between; color:var(--muted); font-size:12.5px; margin-bottom:10px; letter-spacing:.03em}
+  .prog{height:7px; background:var(--line); border-radius:99px; overflow:hidden}
+  .prog>i{display:block; height:100%; width:0;
+    background:linear-gradient(90deg,var(--warn),var(--danger)); transition:width .35s}
+
+  .q{padding:26px 34px 38px}
+  .q .scene{color:var(--danger); font-size:12.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase}
+  .q h2{font-size:21px; line-height:1.5; margin:8px 0 24px; min-height:64px}
+  .opt{
+    display:block; width:100%; text-align:left; padding:17px 18px; margin-bottom:12px;
+    background:#0e150f; border:1.5px solid var(--line); border-radius:13px;
+    color:var(--ink); font-family:inherit; font-size:16px; cursor:pointer;
+    transition:border .15s, transform .1s, background .15s;
+  }
+  .opt:hover{border-color:var(--danger); background:#14201a}
+  .opt:active{transform:scale(.99)}
+
+  .res{text-align:center}
+  .res-hero{padding:34px 30px 26px; background:linear-gradient(160deg,#0c130e,#16241a);
+    border-bottom:1px solid var(--line)}
+  .res-emoji{font-size:64px; line-height:1; margin-bottom:8px}
+  .res-type{font-size:13px; letter-spacing:.22em; color:var(--muted); font-weight:800}
+  .res-title{font-size:31px; font-weight:900; margin:6px 0 4px}
+  .res-tagline{font-size:15.5px; color:var(--muted); margin:0}
+  .survival{padding:22px 32px 6px}
+  .survival .slbl{font-size:13px; color:var(--muted); margin-bottom:8px; letter-spacing:.04em}
+  .bar{height:16px; background:#0e150f; border:1px solid var(--line); border-radius:99px; overflow:hidden; position:relative}
+  .bar>i{display:block; height:100%; border-radius:99px;
+    background:linear-gradient(90deg,var(--danger),var(--warn) 55%,var(--brand)); width:0; transition:width 1s ease-out}
+  .pct{font-size:34px; font-weight:900; margin-top:12px}
+  .res-body{padding:20px 32px 6px; text-align:left}
+  .res-body .quote{border-left:3px solid var(--danger); padding:4px 0 4px 15px; color:#f2b8ae; font-style:italic; font-size:15.5px; margin:0 0 16px}
+  .res-body p{font-size:15px; margin:0 0 16px}
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:6px 32px 8px}
+  .stat{background:#0e150f; border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+  .stat .k{font-size:12px; color:var(--muted); margin-bottom:3px}
+  .stat .v{font-size:15px; font-weight:800}
+  .stat .v.g{color:var(--brand)} .stat .v.r{color:var(--danger)}
+  .traits{display:flex; flex-wrap:wrap; gap:8px; padding:14px 32px 4px}
+  .trait{background:#16241a; color:var(--brand); border:1px solid var(--line);
+    border-radius:99px; padding:6px 13px; font-size:13px; font-weight:700}
+  .share{padding:22px 32px 0; display:grid; gap:10px}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin:22px 0 30px}
+  .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    background:#000; color:#fff; padding:12px 20px; border-radius:99px; font-size:14px;
+    opacity:0; transition:.25s; pointer-events:none; z-index:9; border:1px solid var(--line)}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .hidden{display:none}
+  @media (max-width:480px){
+    .pad{padding:32px 22px} .q{padding:22px 22px 30px} h1{font-size:25px}
+    .res-body,.survival,.stats,.traits,.share{padding-left:22px; padding-right:22px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- INTRO -->
+  <section class="card" id="intro">
+    <div class="pad">
+      <div class="eyebrow">⚠ EMERGENCY BROADCAST ⚠</div>
+      <div class="biohazard">☣️</div>
+      <h1>좀비 사태가 터졌다.<br>당신은 <span class="em">며칠</span> 버틸까?</h1>
+      <p class="sub">8개의 선택으로 알아보는 나의 생존 유형과 생존 확률</p>
+      <button class="btn" id="startBtn">생존 테스트 시작</button>
+      <div class="meta-row">
+        <span>⏱ 1분</span><span>·</span><span>🧟 16가지 생존 유형</span><span>·</span><span>📊 생존율 계산</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card hidden" id="quiz">
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="qcount">DAY 1 / 8</span><span>SURVIVAL TEST</span></div>
+      <div class="prog"><i id="progbar"></i></div>
+    </div>
+    <div class="q">
+      <div class="scene" id="scene"></div>
+      <h2 id="qtext"></h2>
+      <div id="opts"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card hidden" id="result">
+    <div class="res">
+      <div class="res-hero">
+        <div class="res-emoji" id="rEmoji">🧟</div>
+        <div class="res-type" id="rType">ISTP</div>
+        <div class="res-title" id="rTitle"></div>
+        <p class="res-tagline" id="rTagline"></p>
+      </div>
+      <div class="survival">
+        <div class="slbl">예상 생존 확률</div>
+        <div class="bar"><i id="rBar"></i></div>
+        <div class="pct" id="rPct">—</div>
+      </div>
+      <div class="res-body">
+        <p class="quote" id="rQuote"></p>
+        <p id="rDesc"></p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="k">🗡️ 무기</div><div class="v" id="rWeapon"></div></div>
+        <div class="stat"><div class="k">⚡ 최대 강점</div><div class="v g" id="rStrength"></div></div>
+        <div class="stat"><div class="k">💀 최대 약점</div><div class="v r" id="rWeak"></div></div>
+        <div class="stat"><div class="k">🤝 최고의 파트너</div><div class="v" id="rBuddy"></div></div>
+      </div>
+      <div class="traits" id="rTraits"></div>
+      <div class="share">
+        <button class="btn" id="copyBtn">🔗 결과 복사해서 친구 소환하기</button>
+        <button class="btn ghost" id="retryBtn">다시 하기</button>
+      </div>
+      <div class="foot">캡처해서 스토리에 올리고 친구 생존율과 비교해보세요 · 생존 MBTI</div>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">복사됐어요! 친구에게 붙여넣기 하세요</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s)};
+  var Q=[
+    {axis:"EI",scene:"Day 1 — 첫 감염 뉴스",q:"도시에 좀비 발생 속보! 당신의 첫 행동은?",
+     a:["사람들과 모여 정보·대책을 나눈다","일단 혼자 조용히 상황을 파악한다"]},
+    {axis:"EI",scene:"Day 2 — 생존자 무리 합류",q:"낯선 생존자 무리를 만났다.",
+     a:["먼저 다가가 인사하고 어울린다","거리를 두고 신뢰가 생길 때까지 지켜본다"]},
+    {axis:"SN",scene:"Day 3 — 버려진 마트",q:"물자를 챙길 때 당신의 기준은?",
+     a:["지금 당장 필요한 것부터 확실하게","앞으로 벌어질 상황을 상상해 대비까지"]},
+    {axis:"SN",scene:"Day 4 — 라디오 신호",q:"정체불명의 구조 신호를 잡았다.",
+     a:["실제로 확인된 사실인지부터 따진다","이게 무슨 큰 그림일지 의미를 파고든다"]},
+    {axis:"TF",scene:"Day 5 — 물린 동료",q:"동료가 물렸다. 곧 변할 것이다.",
+     a:["무리를 위해 냉정하게 결단한다","차마 못 한다, 마지막까지 곁을 지킨다"]},
+    {axis:"TF",scene:"Day 6 — 식량 배분 다툼",q:"식량이 부족해 갈등이 터졌다.",
+     a:["규칙대로 공정하게 나눈다","약자·아이부터 먼저 챙긴다"]},
+    {axis:"JP",scene:"Day 7 — 은신처 결정",q:"안전한 거점을 잡았다. 당신은?",
+     a:["역할·보초·규칙을 정해 체계를 세운다","상황 봐가며 유연하게 대처하자 한다"]},
+    {axis:"JP",scene:"Day 8 — 대탈출",q:"거대 좀비 떼가 몰려온다! 탈출 계획은?",
+     a:["미리 짠 경로대로 침착하게 움직인다","그때그때 본능과 순발력으로 뚫는다"]}
+  ];
+  var R={
+    ISTP:{e:"🔧",t:"맥가이버 생존왕",tag:"뭐든 만들고 뭐든 고치는 최후의 인간",pct:94,
+      quote:"“도구만 있으면 어떻게든 된다.”",
+      desc:"침착함과 손재주로 무엇이든 무기와 도구로 바꾸는 최강 생존형. 위기에서 감정에 휘둘리지 않고 즉시 해결책을 찾습니다. 혼자서도 오래 버티는, 아포칼립스가 원한 바로 그 인간.",
+      weapon:"개조 못방망이 & 임시 폭탄",strength:"임기응변·손재주",weak:"팀워크 소통 부족",buddy:"의무병 (ISFJ)",
+      traits:["#생존왕","#침착","#손재주","#현실감각"]},
+    INTJ:{e:"🧠",t:"벙커 전략가",tag:"모든 시나리오를 미리 계산한 설계자",pct:90,
+      quote:"“이 사태의 끝은 이미 계산 끝났다.”",
+      desc:"장기적 안목으로 안전 거점과 보급 계획을 설계하는 두뇌. 감정보다 데이터로 움직여 최적의 생존 전략을 짭니다. 좀비보다 무서운 건 당신의 완벽한 계획.",
+      weapon:"지도 & 저격소총",strength:"장기 전략",weak:"고립되기 쉬움",buddy:"캠프 사령관 (ESTJ)",
+      traits:["#전략가","#냉철","#설계","#장기전"]},
+    ESTP:{e:"🗡️",t:"최전방 좀비 헌터",tag:"공포를 모르는 돌격대장",pct:82,
+      quote:"“겁먹을 시간에 한 마리 더 잡는다.”",
+      desc:"순발력과 담력으로 최전선에서 활약하는 행동파. 위기에서 오히려 눈이 빛나는 타고난 전사죠. 무리를 지키는 방패지만, 가끔 너무 앞서 나가는 게 유일한 리스크.",
+      weapon:"쌍도끼 & 산탄총",strength:"전투력·순발력",weak:"무모함",buddy:"전략가 (INTJ)",
+      traits:["#돌격대장","#담력","#순발력","#전투광"]},
+    ISTJ:{e:"🛡️",t:"철벽 경비대장",tag:"규칙으로 캠프를 지키는 기둥",pct:85,
+      quote:"“규칙이 무너지면 사람도 무너진다.”",
+      desc:"체계와 원칙으로 거점을 안정적으로 유지하는 든든한 관리자. 보초·배급·순찰을 빈틈없이 굴려 무리를 오래 살립니다. 화려하진 않아도 캠프가 무너지지 않는 이유가 바로 당신.",
+      weapon:"철문 바리케이드 & 소총",strength:"체계·책임감",weak:"융통성 부족",buddy:"보급 담당 (ESFJ)",
+      traits:["#철벽수비","#원칙","#책임감","#안정"]},
+    ESTJ:{e:"📣",t:"캠프 사령관",tag:"혼란 속 질서를 세우는 지휘관",pct:83,
+      quote:"“내 지시대로만 하면 다 산다.”",
+      desc:"강한 리더십으로 생존자들을 조직하고 지휘하는 사령관형. 역할을 나누고 결정을 내려 혼돈을 질서로 바꿉니다. 추진력이 강해 무리를 이끌지만, 가끔 사람들의 마음도 살펴주면 완벽.",
+      weapon:"지휘봉 & 권총",strength:"통솔력·결단",weak:"독선적일 수 있음",buddy:"벙커 전략가 (INTJ)",
+      traits:["#사령관","#리더십","#결단","#조직력"]},
+    ISFJ:{e:"⛑️",t:"헌신의 의무병",tag:"모두를 살리는 따뜻한 손",pct:70,
+      quote:"“내가 지켜줄게, 걱정 마.”",
+      desc:"부상자를 돌보고 무리를 세심히 챙기는 헌신형. 당신 덕분에 많은 생존자가 오늘도 숨 쉽니다. 다만 남을 구하려다 자신을 위험에 빠뜨릴 때가 있으니, 자기 안전도 꼭 챙기세요.",
+      weapon:"구급낭 & 호신용 칼",strength:"돌봄·헌신",weak:"자기희생 과다",buddy:"맥가이버 (ISTP)",
+      traits:["#의무병","#헌신","#섬세함","#든든함"]},
+    ESFJ:{e:"🍲",t:"보급 살림 반장",tag:"캠프를 돌아가게 하는 심장",pct:74,
+      quote:"“다들 밥은 먹었어? 뭉쳐야 산다!”",
+      desc:"사람들을 챙기고 물자와 살림을 관리해 공동체를 유지하는 유형. 당신이 있으면 흩어질 무리도 하나로 뭉칩니다. 정이 많아 모두의 엄마 같은 존재. 서운함을 잘 타니 스스로도 다독여주세요.",
+      weapon:"배급 장부 & 프라이팬",strength:"공동체 유지",weak:"갈등에 상처받음",buddy:"철벽 경비대장 (ISTJ)",
+      traits:["#살림반장","#정","#공동체","#분위기메이커"]},
+    INTP:{e:"🧪",t:"백신 연구자",tag:"인류의 마지막 희망을 계산하는 두뇌",pct:76,
+      quote:"“이 바이러스에는 반드시 약점이 있다.”",
+      desc:"혼란 속에서도 좀비 바이러스의 원리를 파고드는 분석형. 남들이 도망칠 때 당신은 해답을 찾습니다. 전투는 약해도 두뇌가 무기. 실험실에만 틀어박히지 말고 팀의 보호를 받으세요.",
+      weapon:"현미경 & 화학 함정",strength:"분석·문제해결",weak:"현실 방어력 약함",buddy:"돌격대장 (ESTP)",
+      traits:["#연구자","#분석","#두뇌파","#호기심"]},
+    ENTJ:{e:"👑",t:"생존 제국의 지도자",tag:"폐허 위에 새 질서를 세우는 왕",pct:80,
+      quote:"“살아남는 걸 넘어, 다시 세운다.”",
+      desc:"단순 생존이 아니라 생존자 사회를 재건하려는 야망가. 강력한 카리스마로 거대한 무리를 이끕니다. 좀비 사태를 기회로 바꾸는 지도자. 다만 목표에 취해 사람을 잃지 않도록 조심하세요.",
+      weapon:"무전기 & 지휘 병력",strength:"비전·통솔",weak:"과한 야망",buddy:"백신 연구자 (INTP)",
+      traits:["#지도자","#야망","#카리스마","#재건"]},
+    ENTP:{e:"🎲",t:"임기응변 트릭스터",tag:"기상천외한 수로 살아남는 꾀돌이",pct:78,
+      quote:"“정공법? 그건 재미없잖아.”",
+      desc:"위기마다 아무도 생각 못 한 기발한 수로 돌파하는 재간꾼. 좀비를 함정으로 유인하거나 협상으로 위기를 넘깁니다. 유쾌한 입담은 무리의 사기 담당. 계획을 끝까지 밀어붙이는 뒷심만 더하면 완벽.",
+      weapon:"연막탄 & 온갖 함정",strength:"창의력·순발력",weak:"산만함",buddy:"철벽 경비대장 (ISTJ)",
+      traits:["#꾀돌이","#창의력","#입담","#반전"]},
+    INFJ:{e:"🕯️",t:"무리의 정신적 지주",tag:"절망 속에서 희망을 지키는 현자",pct:68,
+      quote:"“인간다움을 잃으면, 이미 진 거야.”",
+      desc:"깊은 통찰과 신념으로 지친 생존자들의 마음을 붙잡는 유형. 당신의 한마디가 무너지려는 무리를 다시 일으킵니다. 육체의 힘보다 정신의 힘이 무기. 모두를 품느라 혼자 무너지지 않게 조심하세요.",
+      weapon:"신념 & 조용한 설득",strength:"통찰·정신적 리더십",weak:"과도한 짐 짊어짐",buddy:"돌격대장 (ESTP)",
+      traits:["#정신적지주","#통찰","#신념","#조용한힘"]},
+    INFP:{e:"🌱",t:"마지막 인간성의 수호자",tag:"끝까지 마음을 지키는 순수한 영혼",pct:58,
+      quote:"“괴물과 싸우다 괴물이 될 순 없어.”",
+      desc:"극한 상황에서도 따뜻함과 도덕을 잃지 않는 순수형. 당신 덕에 무리는 인간으로 남습니다. 다만 여린 마음이 위험을 부를 수 있으니, 강한 동료 곁에 있는 게 생존의 열쇠.",
+      weapon:"공감 & 몸을 사림",strength:"공감·도덕성",weak:"결단력 부족",buddy:"캠프 사령관 (ESTJ)",
+      traits:["#순수","#인간성","#공감","#낭만"]},
+    ENFJ:{e:"🤝",t:"모두를 뭉치게 하는 리더",tag:"흩어진 사람들을 하나로 만드는 구심점",pct:75,
+      quote:"“혼자 살아남는 건 사는 게 아니야.”",
+      desc:"따뜻함과 카리스마로 생존자들을 결속시키는 리더. 갈등을 중재하고 사기를 끌어올려 무리를 살립니다. 사람의 힘을 믿는 당신 덕에 공동체가 유지되죠. 자신을 돌볼 시간도 꼭 가지세요.",
+      weapon:"연설 & 결속력",strength:"결속·중재",weak:"자기 소진",buddy:"맥가이버 (ISTP)",
+      traits:["#구심점","#결속","#따뜻함","#영향력"]},
+    ENFP:{e:"🔥",t:"무리의 분위기 메이커",tag:"절망도 웃음으로 바꾸는 에너지원",pct:60,
+      quote:"“살아있는 동안은 웃어야지!”",
+      desc:"넘치는 에너지와 낙천성으로 지친 무리에게 활력을 주는 유형. 당신이 있으면 어떤 지옥도 견딜 만해집니다. 다만 겁 없이 나서다 위험해질 수 있으니, 순간의 충동만 다스리면 오래 살아남습니다.",
+      weapon:"열정 & 즉흥 작전",strength:"사기 진작·순발력",weak:"충동적 돌발행동",buddy:"벙커 전략가 (INTJ)",
+      traits:["#에너지원","#낙천","#열정","#인싸"]},
+    ISFP:{e:"🎯",t:"은둔 스나이퍼",tag:"조용히, 그러나 확실하게",pct:72,
+      quote:"“말 대신 방아쇠로 말한다.”",
+      desc:"과묵하고 온화하지만 위기에선 침착하고 정확한 실전형. 눈에 안 띄게 움직이며 결정적 순간에 한 발로 무리를 구합니다. 자기만의 페이스가 뚜렷한 고독한 생존자. 팀과 조금만 더 소통하면 무적.",
+      weapon:"저격소총 & 은신",strength:"침착·정확성",weak:"고립 성향",buddy:"뭉치게 하는 리더 (ENFJ)",
+      traits:["#스나이퍼","#침착","#은신","#자기세계"]},
+    ESFP:{e:"⭐",t:"무모한 히어로",tag:"초반 최고 스타, 리스크도 최고",pct:55,
+      quote:"“내가 막을게, 다들 뛰어!”",
+      desc:"화끈한 매력과 순간 대응력으로 무리를 이끄는 스타형. 위기에서 몸을 던져 사람들을 구하는 영웅이지만, 그 무모함이 스스로를 위험에 빠뜨립니다. 조금만 신중해지면 오래 빛날 진짜 히어로.",
+      weapon:"화염병 & 온몸",strength:"순간 대응·용기",weak:"무모한 희생",buddy:"벙커 전략가 (INTJ)",
+      traits:["#히어로","#매력","#용기","#현재를즐김"]}
+  };
+
+  var idx=0, score={EI:0,SN:0,TF:0,JP:0};
+  function render(){
+    var item=Q[idx];
+    $("#scene").textContent=item.scene;
+    $("#qtext").textContent=item.q;
+    $("#qcount").textContent="DAY "+(idx+1)+" / "+Q.length;
+    $("#progbar").style.width=((idx)/Q.length*100)+"%";
+    var box=$("#opts"); box.innerHTML="";
+    item.a.forEach(function(text,i){
+      var b=document.createElement("button");
+      b.className="opt"; b.textContent=text;
+      b.onclick=function(){ pick(item.axis, i===0); };
+      box.appendChild(b);
+    });
+  }
+  function pick(axis,isFirst){
+    if(isFirst) score[axis]++; else score[axis]--;
+    idx++;
+    if(idx<Q.length) render(); else finish();
+  }
+  function finish(){
+    var type=(score.EI>=0?"E":"I")+(score.SN>=0?"S":"N")+(score.TF>=0?"T":"F")+(score.JP>=0?"J":"P");
+    var r=R[type];
+    $("#progbar").style.width="100%";
+    $("#rEmoji").textContent=r.e;
+    $("#rType").textContent=type;
+    $("#rTitle").textContent=r.t;
+    $("#rTagline").textContent=r.tag;
+    $("#rQuote").textContent=r.quote;
+    $("#rDesc").textContent=r.desc;
+    $("#rWeapon").textContent=r.weapon;
+    $("#rStrength").textContent=r.strength;
+    $("#rWeak").textContent=r.weak;
+    $("#rBuddy").textContent=r.buddy;
+    var tw=$("#rTraits"); tw.innerHTML="";
+    r.traits.forEach(function(t){var s=document.createElement("span");s.className="trait";s.textContent=t;tw.appendChild(s);});
+    show("#result");
+    window.scrollTo(0,0);
+    // animate survival
+    var pct=r.pct;
+    setTimeout(function(){ $("#rBar").style.width=pct+"%"; },120);
+    var cur=0; var iv=setInterval(function(){ cur+=2; if(cur>=pct){cur=pct;clearInterval(iv);} $("#rPct").textContent="생존율 "+cur+"%"; },18);
+    try{ location.hash=type; }catch(e){}
+  }
+  function show(sel){
+    ["#intro","#quiz","#result"].forEach(function(s){ $(s).classList.add("hidden"); });
+    $(sel).classList.remove("hidden");
+  }
+  $("#startBtn").onclick=function(){ idx=0; score={EI:0,SN:0,TF:0,JP:0}; render(); show("#quiz"); };
+  $("#retryBtn").onclick=function(){ idx=0; score={EI:0,SN:0,TF:0,JP:0}; try{location.hash="";}catch(e){} show("#intro"); };
+  $("#copyBtn").onclick=function(){
+    var t=$("#rTitle").textContent, p=$("#rPct").textContent;
+    var msg="좀비 사태 터짐. 내 생존 유형은 ["+t+"] ("+p+")! 너는 며칠 버티나 해봐 👉 "+location.href;
+    var done=function(){ var el=$("#toast"); el.classList.add("show"); setTimeout(function(){el.classList.remove("show");},2200); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(done,function(){ prompt("아래 내용을 복사하세요:",msg); });
+    } else { prompt("아래 내용을 복사하세요:",msg); }
+  };
+})();
+</script>
+</body>
+</html>

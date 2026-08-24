@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>조선시대 MBTI · 당신이 조선에 태어났다면?</title>
+<meta property="og:title" content="당신이 조선시대에 태어났다면? — 조선 MBTI 테스트">
+<meta property="og:description" content="8개의 질문으로 알아보는 나의 조선시대 직업. 암행어사부터 저잣거리 광대까지!">
+<style>
+  :root{
+    --bg:#f3ede1; --panel:#fffaf0; --ink:#2e2115; --muted:#8a7a63;
+    --line:#e3d6bf; --brand:#8a3324; --brand2:#c8912a; --gold:#c8912a;
+    --paper:#fdf6e6; --shadow:0 10px 40px rgba(90,60,20,.18);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #f8f0dd, var(--bg)) fixed;
+    color:var(--ink); line-height:1.65; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px 16px;
+  }
+  .stage{width:100%; max-width:600px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden; position:relative;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    border:2px solid transparent; border-radius:var(--radius);
+    background:linear-gradient(135deg,var(--brand),var(--gold)) border-box;
+    -webkit-mask:linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; opacity:.25;
+  }
+
+  /* intro */
+  .pad{padding:40px 34px}
+  .eyebrow{
+    color:var(--brand); font-weight:700; letter-spacing:.15em; font-size:13px;
+    text-align:center; margin-bottom:14px;
+  }
+  h1{
+    font-size:30px; text-align:center; margin:0 0 6px; line-height:1.3;
+    letter-spacing:-.01em;
+  }
+  h1 .em{color:var(--brand)}
+  .sub{text-align:center; color:var(--muted); font-size:15px; margin:0 0 28px}
+  .seal{
+    width:88px; height:88px; margin:8px auto 22px; border-radius:16px;
+    background:linear-gradient(135deg,var(--brand),#5a2016);
+    color:#f8e6c0; display:flex; align-items:center; justify-content:center;
+    font-size:40px; box-shadow:0 8px 24px rgba(138,51,36,.4);
+    border:3px solid var(--gold);
+  }
+  .btn{
+    display:block; width:100%; padding:16px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,var(--brand),#a03d2b); color:#fdf1d8;
+    font-family:inherit; font-size:17px; font-weight:700; border-radius:14px;
+    letter-spacing:.02em; transition:transform .1s, filter .15s;
+    box-shadow:0 6px 18px rgba(138,51,36,.3);
+  }
+  .btn:hover{filter:brightness(1.06)} .btn:active{transform:translateY(1px)}
+  .btn.ghost{
+    background:transparent; color:var(--brand); border:1.5px solid var(--line);
+    box-shadow:none; font-size:15px; padding:13px;
+  }
+  .meta-row{display:flex; gap:14px; justify-content:center; color:var(--muted);
+    font-size:13px; margin-top:18px}
+  .meta-row span{display:inline-flex; align-items:center; gap:5px}
+
+  /* progress */
+  .prog-wrap{padding:22px 34px 0}
+  .prog-top{display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:13px; margin-bottom:10px}
+  .prog{height:7px; background:var(--line); border-radius:99px; overflow:hidden}
+  .prog>i{display:block; height:100%; width:0;
+    background:linear-gradient(90deg,var(--gold),var(--brand)); transition:width .35s}
+
+  /* question */
+  .q{padding:26px 34px 38px}
+  .q h2{font-size:22px; line-height:1.5; margin:6px 0 26px; min-height:66px}
+  .q .scene{color:var(--brand); font-size:13px; font-weight:700; letter-spacing:.05em}
+  .opt{
+    display:block; width:100%; text-align:left; padding:17px 18px; margin-bottom:12px;
+    background:var(--paper); border:1.5px solid var(--line); border-radius:13px;
+    color:var(--ink); font-family:inherit; font-size:16px; cursor:pointer;
+    transition:border .15s, transform .1s, background .15s;
+  }
+  .opt:hover{border-color:var(--brand); background:#fff6e0}
+  .opt:active{transform:scale(.99)}
+
+  /* result */
+  .res{padding:0 0 34px; text-align:center}
+  .res-hero{
+    padding:36px 30px 30px;
+    background:linear-gradient(160deg,#5a2016,var(--brand) 60%,#a8451f);
+    color:#fbeecb;
+  }
+  .res-emoji{font-size:64px; line-height:1; margin-bottom:10px}
+  .res-type{font-size:14px; letter-spacing:.2em; opacity:.85; font-weight:700}
+  .res-title{font-size:34px; font-weight:800; margin:6px 0 4px; color:#fff}
+  .res-tagline{font-size:16px; opacity:.92; margin:0}
+  .res-body{padding:28px 32px 8px; text-align:left}
+  .res-body p{font-size:15.5px; margin:0 0 16px}
+  .res-body .quote{
+    border-left:3px solid var(--gold); padding:6px 0 6px 16px; color:var(--brand);
+    font-style:italic; font-size:16px;
+  }
+  .traits{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 22px}
+  .trait{background:#f3e6c8; color:var(--brand); border-radius:99px;
+    padding:6px 13px; font-size:13px; font-weight:700}
+  .compat{
+    display:flex; gap:12px; padding:0 32px 8px; text-align:left;
+  }
+  .compat .cbox{flex:1; background:var(--paper); border:1px solid var(--line);
+    border-radius:12px; padding:14px}
+  .compat .cbox .clbl{font-size:12px; color:var(--muted); margin-bottom:4px}
+  .compat .cbox .cval{font-size:16px; font-weight:700}
+  .compat .good .cval{color:#2f7d32} .compat .bad .cval{color:var(--brand)}
+  .share{padding:24px 32px 0; display:grid; gap:10px}
+  .toast{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fdf6e6; padding:12px 20px; border-radius:99px;
+    font-size:14px; opacity:0; transition:.25s; pointer-events:none; z-index:9;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin-top:22px}
+  .hidden{display:none}
+  @media (max-width:480px){
+    .pad{padding:32px 22px} .q{padding:22px 22px 30px} .h1{font-size:26px}
+    .res-body,.compat,.share{padding-left:22px; padding-right:22px}
+    h1{font-size:25px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- INTRO -->
+  <section class="card" id="intro">
+    <div class="pad">
+      <div class="eyebrow">朝 鮮 性 格 診 斷</div>
+      <div class="seal">科</div>
+      <h1>당신이 <span class="em">조선시대</span>에<br>태어났다면?</h1>
+      <p class="sub">8개의 갈림길로 알아보는 나의 조선 직업</p>
+      <button class="btn" id="startBtn">테스트 시작하기</button>
+      <div class="meta-row">
+        <span>⏱ 1분 소요</span><span>·</span><span>📜 16가지 유형</span><span>·</span><span>🔒 로그인 없음</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card hidden" id="quiz">
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="qcount">1 / 8</span><span>조선 MBTI</span></div>
+      <div class="prog"><i id="progbar"></i></div>
+    </div>
+    <div class="q">
+      <div class="scene" id="scene"></div>
+      <h2 id="qtext"></h2>
+      <div id="opts"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card hidden" id="result">
+    <div class="res">
+      <div class="res-hero">
+        <div class="res-emoji" id="rEmoji">📜</div>
+        <div class="res-type" id="rType">INTJ</div>
+        <div class="res-title" id="rTitle"></div>
+        <p class="res-tagline" id="rTagline"></p>
+      </div>
+      <div class="res-body">
+        <p class="quote" id="rQuote"></p>
+        <p id="rDesc"></p>
+        <div class="traits" id="rTraits"></div>
+      </div>
+      <div class="compat">
+        <div class="cbox good"><div class="clbl">💛 환상의 짝</div><div class="cval" id="rGood"></div></div>
+        <div class="cbox bad"><div class="clbl">⚔️ 상극</div><div class="cval" id="rBad"></div></div>
+      </div>
+      <div class="share">
+        <button class="btn" id="copyBtn">🔗 결과 링크 복사해서 친구에게</button>
+        <button class="btn ghost" id="retryBtn">다시 하기</button>
+      </div>
+      <div class="foot">캡처해서 인스타 스토리에 공유해보세요 · 조선 MBTI</div>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">복사됐어요! 친구에게 붙여넣기 하세요</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s)};
+  // 8 questions: 2 per axis (EI, SN, TF, JP). value 'a' adds to first pole.
+  var Q=[
+    {axis:"EI",scene:"저잣거리 잔칫날",q:"큰 잔치가 열렸다. 당신은?",
+      a:["사람들 한복판에서 먼저 말을 걸고 논다","한쪽에서 지켜보며 마음 맞는 몇과 있는다"]},
+    {axis:"EI",scene:"과거 시험 합격 후",q:"장원급제! 소식을 어떻게 알리나?",
+     a:["온 마을에 소리쳐 함께 기뻐한다","가족과 조용히 나누고 스스로 음미한다"]},
+    {axis:"SN",scene:"스승의 가르침",q:"스승이 새 학문을 논한다. 당신의 관심은?",
+     a:["당장 쓸모 있는 실제 사례와 방법","그 너머의 원리와 큰 뜻·미래"]},
+    {axis:"SN",scene:"밤하늘 아래",q:"별을 보며 드는 생각은?",
+     a:["내일 날씨와 농사 걱정","우주와 인간의 운명에 대한 상상"]},
+    {axis:"TF",scene:"고을의 분쟁",q:"두 백성이 다툰다. 당신의 판결 기준은?",
+     a:["법과 원칙, 옳고 그름을 따진다","각자의 사정과 마음을 먼저 헤아린다"]},
+    {axis:"TF",scene:"벗의 실수",q:"친한 벗이 큰 실수를 했다.",
+     a:["냉정하게 문제와 해결책을 짚어준다","우선 다독이고 마음부터 살핀다"]},
+    {axis:"JP",scene:"한양으로 가는 길",q:"먼 여정을 앞두고 당신은?",
+     a:["일정·짐·묵을 곳까지 미리 다 정한다","일단 떠나고 상황 따라 정한다"]},
+    {axis:"JP",scene:"관청의 하루",q:"당신의 일하는 방식은?",
+     a:["할 일을 순서대로 착착 끝낸다","영감이 오면 몰아서, 마감 직전 폭발"]}
+  ];
+  var R={
+    INTJ:{e:"🎯",t:"책사 (策士)",tag:"판을 설계하는 그림자 재상",
+      quote:"“천하는 힘이 아니라 계책으로 얻는 것이다.”",
+      desc:"당신은 왕 뒤에서 나라의 큰 그림을 그리는 전략가입니다. 감정에 휘둘리지 않고 수십 수 앞을 내다보죠. 정도전처럼 새 나라의 뼈대를 설계할 인물. 다만 너무 앞서가서 남들이 못 따라올 때가 있습니다.",
+      traits:["#전략가","#냉철함","#멀리보는눈","#설계자"],good:"국모 (ENFJ)",bad:"저잣거리 광대 (ESFP)"},
+    INTP:{e:"🔭",t:"홍문관 학자",tag:"진리를 캐는 조선의 두뇌",
+      quote:"“어찌하여 그러한가, 그 까닭을 알고 싶을 뿐.”",
+      desc:"세상 모든 것의 원리가 궁금한 학자형. 벼슬보다 책과 탐구가 좋습니다. 장영실 같은 발명, 천문·수학에도 능하죠. 사람들과의 잔치보다 조용한 서재가 편한 당신, 가끔 현실 감각이 아쉽습니다.",
+      traits:["#탐구광","#논리","#호기심","#마이페이스"],good:"암행어사 (ENTP)",bad:"객주 안주인 (ESFJ)"},
+    ENTJ:{e:"⚔️",t:"대장군 · 정승",tag:"타고난 지휘관",
+      quote:"“따르라, 길은 내가 낸다.”",
+      desc:"목표를 세우면 군대든 조정이든 이끌어 관철하는 리더. 카리스마와 추진력으로 사람을 움직입니다. 다만 너무 밀어붙여 주변이 지칠 수 있으니, 가끔은 속도를 늦춰 마음도 챙기세요.",
+      traits:["#리더","#추진력","#카리스마","#결단"],good:"방랑시인 (INFP)",bad:"도공 (ISFP)"},
+    ENTP:{e:"🕵️",t:"암행어사",tag:"기지로 세상을 뒤흔드는 자",
+      quote:"“암행어사 출두요!”",
+      desc:"말솜씨와 임기응변의 천재. 변장하고 잠입해 탐관오리를 혼내는 데 이보다 어울리는 유형이 없습니다. 틀을 깨는 발상, 유쾌한 입담이 무기죠. 다만 벌인 일을 끝까지 마무리하는 뒷심을 기르면 완벽합니다.",
+      traits:["#임기응변","#입담","#반전","#자유로운영혼"],good:"내의녀 (ISFJ)",bad:"사관 (ISTJ)"},
+    INFJ:{e:"🌙",t:"왕사 · 예언 무녀",tag:"세상의 앞날을 읽는 정신적 지주",
+      quote:"“사람의 마음을 얻는 자가 천하를 얻는다.”",
+      desc:"조용하지만 깊은 통찰로 사람과 시대를 꿰뚫습니다. 왕의 스승이자, 무리의 중심을 잡는 현자형. 이상이 높고 신념이 굳지만, 혼자 다 짊어지려다 지칠 수 있으니 마음을 나눌 벗이 꼭 필요합니다.",
+      traits:["#통찰","#신념","#조용한리더","#이상주의"],good:"보부상 두목 (ESTP)",bad:"호조판서 (ESTJ)"},
+    INFP:{e:"🍶",t:"방랑 시인 (김삿갓)",tag:"자유로이 떠도는 낭만가",
+      quote:"“구름처럼 바람처럼, 마음 가는 대로.”",
+      desc:"벼슬도 명예도 아닌, 아름다움과 진심을 좇는 순수한 영혼. 세상의 부조리에 시 한 수로 저항하는 낭만가입니다. 여린 듯 심지가 굳어요. 다만 현실의 셈이 서툴러 손해 볼 때가 있으니 마음 든든한 동무가 필요합니다.",
+      traits:["#낭만","#순수","#자유","#감수성"],good:"대장군 (ENTJ)",bad:"고을 사또 (ESTJ)"},
+    ENFJ:{e:"👑",t:"국모 · 명망 높은 스승",tag:"만인을 품는 어머니",
+      quote:"“내 한 몸보다 만백성이 먼저다.”",
+      desc:"따뜻함과 카리스마를 겸비해 사람을 하나로 모으는 유형. 신사임당처럼 존경받는 스승이자 지도자죠. 남을 챙기느라 정작 자신을 잊기 쉬우니, 스스로를 돌보는 것도 잊지 마세요.",
+      traits:["#포용","#리더십","#따뜻함","#영향력"],good:"책사 (INTJ)",bad:"대장장이 (ISTP)"},
+    ENFP:{e:"🎭",t:"판소리 광대",tag:"저잣거리를 들썩이는 스타",
+      quote:"“얼쑤! 인생 뭐 있소, 흥이 최고지!”",
+      desc:"타고난 끼와 에너지로 어디서든 분위기를 살리는 인기인. 마당놀이 한 판이면 온 고을이 웃습니다. 자유롭고 열정적이지만 관심사가 자주 바뀌어요. 좋아하는 일에 진득하게 파고들면 대성합니다.",
+      traits:["#끼","#에너지","#인싸","#열정"],good:"사관 (ISTJ)",bad:"관상감 학자 (INTP)"},
+    ISTJ:{e:"📖",t:"사관 (史官)",tag:"원칙을 지키는 기록의 수호자",
+      quote:"“사실은 사실대로, 붓은 굽히지 않는다.”",
+      desc:"왕 앞에서도 바른 기록을 남기는 강직한 원칙주의자. 맡은 일은 빈틈없이 끝내고 약속은 반드시 지킵니다. 조선을 지탱한 성실의 표본이죠. 다만 융통성을 조금 더하면 사람들과 더 편해집니다.",
+      traits:["#성실","#원칙","#책임감","#신뢰"],good:"판소리 광대 (ENFP)",bad:"암행어사 (ENTP)"},
+    ISFJ:{e:"🌿",t:"내의녀 · 상궁",tag:"묵묵히 곁을 지키는 손길",
+      quote:"“드러나지 않아도, 곁을 지키는 것이 나의 몫.”",
+      desc:"헌신적이고 세심해 아픈 이를 돌보고 사람들을 챙기는 유형. 궁의 살림과 사람을 조용히 지탱하는 든든한 존재죠. 배려가 깊은 만큼 거절을 못 해 손해 볼 때가 있으니, 자신의 마음도 살피세요.",
+      traits:["#헌신","#섬세함","#따뜻함","#든든함"],good:"암행어사 (ENTP)",bad:"보부상 두목 (ESTP)"},
+    ESTJ:{e:"🏛️",t:"호조판서 · 고을 사또",tag:"질서를 세우는 실권자",
+      quote:"“법도가 서야 나라가 선다.”",
+      desc:"현실적이고 조직적이라 살림과 행정을 빈틈없이 굴리는 관리자형. 원칙과 효율로 고을을 반듯하게 다스립니다. 추진력이 강한 만큼 융통성과 공감을 더하면 존경받는 지도자가 됩니다.",
+      traits:["#조직력","#추진력","#현실감각","#책임"],good:"방랑시인 (INFP)",bad:"예언 무녀 (INFJ)"},
+    ESFJ:{e:"🍲",t:"객주 안주인 · 중매쟁이",tag:"마을을 잇는 마당발",
+      quote:"“밥은 먹었는가? 얼굴이 반쪽일세!”",
+      desc:"정 많고 사교적이라 사람과 사람을 잇는 데 최고. 온 동네 소식통이자 잔치의 중심이죠. 남 챙기는 데 진심이지만, 인정받고 싶은 마음이 커서 서운함도 잘 탑니다. 스스로를 먼저 사랑하세요.",
+      traits:["#사교왕","#정","#마당발","#분위기메이커"],good:"홍문관 학자 (INTP)",bad:"방랑시인 (INFP)"},
+    ISTP:{e:"🔨",t:"대장장이 · 무기 장인",tag:"손끝으로 말하는 장인",
+      quote:"“말보다 물건으로 증명한다.”",
+      desc:"과묵하지만 손재주와 문제해결력이 뛰어난 실전형. 위기 상황에서 침착하게 방법을 찾아내는 맥가이버죠. 감정 표현이 서툴 뿐 속은 깊습니다. 가끔 마음을 말로 표현해주면 오해가 줄어요.",
+      traits:["#손재주","#침착","#실전형","#과묵"],good:"국모 (ENFJ)",bad:"명망 높은 스승 (ENFJ)"},
+    ISFP:{e:"🎨",t:"도공 · 화원(畵員)",tag:"아름다움을 빚는 예인",
+      quote:"“말없이, 그러나 온 마음을 담아.”",
+      desc:"섬세한 감각으로 도자기와 그림에 혼을 담는 예술가형. 조용하고 온화하지만 자기만의 세계가 뚜렷합니다. 경쟁보다 아름다움과 평화를 추구하죠. 자신의 재능을 좀 더 세상에 드러내도 좋습니다.",
+      traits:["#예술혼","#온화","#감각","#자기세계"],good:"대장군 (ENTJ)",bad:"대장군 (ENTJ)"},
+    ESTP:{e:"🐎",t:"보부상 두목 · 협객",tag:"길 위의 승부사",
+      quote:"“기회는 지금! 재는 놈이 진다.”",
+      desc:"대담하고 순발력 넘치는 행동파. 전국을 누비며 장사도 의리도 화끈하게 하는 승부사죠. 위기에서 오히려 빛나는 배포가 있습니다. 다만 앞뒤 안 재고 지르는 성향은 조금만 다스리면 무적입니다.",
+      traits:["#배포","#순발력","#행동파","#의리"],good:"예언 무녀 (INFJ)",bad:"내의녀 (ISFJ)"},
+    ESFP:{e:"💃",t:"기생 명월 · 저잣거리 스타",tag:"모두의 시선을 사로잡는 꽃",
+      quote:"“인생은 한바탕 흥겨운 춤이라.”",
+      desc:"화려한 매력과 순간을 즐기는 감각으로 좌중을 사로잡는 스타형. 노래·춤·재치로 사람들의 마음을 훔칩니다. 지금 이 순간에 충실하지만, 가끔 앞날도 챙기면 화려함이 오래갑니다.",
+      traits:["#매력","#끼","#현재를즐김","#분위기메이커"],good:"책사 (INTJ)",bad:"책사 (INTJ)"}
+  };
+
+  var idx=0, score={EI:0,SN:0,TF:0,JP:0};
+  function render(){
+    var item=Q[idx];
+    $("#scene").textContent="＃ "+item.scene;
+    $("#qtext").textContent=item.q;
+    $("#qcount").textContent=(idx+1)+" / "+Q.length;
+    $("#progbar").style.width=((idx)/Q.length*100)+"%";
+    var box=$("#opts"); box.innerHTML="";
+    item.a.forEach(function(text,i){
+      var b=document.createElement("button");
+      b.className="opt"; b.textContent=text;
+      b.onclick=function(){ pick(item.axis, i===0); };
+      box.appendChild(b);
+    });
+  }
+  function pick(axis, isFirst){
+    // first pole: E,S,T,J. add +1 if first option
+    if(isFirst) score[axis]++; else score[axis]--;
+    idx++;
+    if(idx<Q.length){ render(); }
+    else finish();
+  }
+  function finish(){
+    var type=
+      (score.EI>=0?"E":"I")+
+      (score.SN>=0?"S":"N")+
+      (score.TF>=0?"T":"F")+
+      (score.JP>=0?"J":"P");
+    var r=R[type];
+    $("#progbar").style.width="100%";
+    $("#rEmoji").textContent=r.e;
+    $("#rType").textContent=type;
+    $("#rTitle").textContent=r.t;
+    $("#rTagline").textContent=r.tag;
+    $("#rQuote").textContent=r.quote;
+    $("#rDesc").textContent=r.desc;
+    $("#rGood").textContent=r.good;
+    $("#rBad").textContent=r.bad;
+    var tw=$("#rTraits"); tw.innerHTML="";
+    r.traits.forEach(function(t){var s=document.createElement("span");s.className="trait";s.textContent=t;tw.appendChild(s);});
+    show("#result");
+    try{ location.hash=type; }catch(e){}
+    window.scrollTo(0,0);
+  }
+  function show(sel){
+    ["#intro","#quiz","#result"].forEach(function(s){ $(s).classList.add("hidden"); });
+    $(sel).classList.remove("hidden");
+  }
+  $("#startBtn").onclick=function(){ idx=0; score={EI:0,SN:0,TF:0,JP:0}; render(); show("#quiz"); };
+  $("#retryBtn").onclick=function(){ idx=0; score={EI:0,SN:0,TF:0,JP:0}; try{location.hash="";}catch(e){} show("#intro"); };
+  $("#copyBtn").onclick=function(){
+    var t=$("#rTitle").textContent;
+    var msg="내 조선시대 직업은 ["+t+"]! 너는 뭐 나오는지 해봐 👉 "+location.href;
+    var done=function(){ var el=$("#toast"); el.classList.add("show"); setTimeout(function(){el.classList.remove("show");},2200); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(done,function(){ prompt("아래 내용을 복사하세요:",msg); });
+    } else { prompt("아래 내용을 복사하세요:",msg); }
+  };
+})();
+</script>
+</body>
+</html>
