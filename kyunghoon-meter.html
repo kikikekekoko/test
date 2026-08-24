@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경훈력 측정기 · 내 안의 찐따력은 몇 점?</title>
+<meta property="og:title" content="경훈력 측정기 — 내 안의 김경훈은 몇 %?">
+<meta property="og:description" content="20문항으로 측정하는 나의 경훈력. 점수 높을수록 찐따 인증. 친구랑 점수 대결 ㄱㄱ">
+<style>
+  :root{
+    --bg:#0e1015; --panel:#171a21; --ink:#e9ecf2; --muted:#8b93a3;
+    --line:#262b36; --brand:#ffcc33; --brand2:#ff7a45; --soft:#1d2029;
+    --shadow:0 12px 40px rgba(0,0,0,.5); --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",
+      "Malgun Gothic","Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(900px 500px at 50% -12%,#1e2230,var(--bg)) fixed;
+    color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:24px 16px;
+  }
+  .stage{width:100%; max-width:600px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); overflow:hidden;
+  }
+
+  /* intro */
+  .pad{padding:40px 32px}
+  .eyebrow{
+    color:var(--brand); font-weight:800; letter-spacing:.16em; font-size:12px;
+    text-align:center; margin-bottom:16px;
+  }
+  .gauge-icon{
+    width:96px; height:96px; margin:0 auto 22px; border-radius:50%;
+    background:conic-gradient(var(--brand) 0turn .72turn, #2a2f3b .72turn 1turn);
+    display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .gauge-icon::after{
+    content:"📉"; width:74px; height:74px; border-radius:50%; background:var(--panel);
+    display:flex; align-items:center; justify-content:center; font-size:34px;
+  }
+  h1{font-size:30px; text-align:center; margin:0 0 8px; line-height:1.32; letter-spacing:-.02em}
+  h1 .em{
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .sub{text-align:center; color:var(--muted); font-size:15px; margin:0 0 26px}
+  .btn{
+    display:block; width:100%; padding:16px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#1a1207;
+    font-family:inherit; font-size:17px; font-weight:900; border-radius:15px;
+    transition:transform .1s, filter .15s;
+    box-shadow:0 8px 22px rgba(255,150,60,.28);
+  }
+  .btn:hover{filter:brightness(1.07)} .btn:active{transform:translateY(1px)}
+  .btn.ghost{
+    background:transparent; color:var(--brand); border:1.5px solid var(--line);
+    box-shadow:none; font-size:15px; padding:13px; font-weight:700;
+  }
+  .meta-row{display:flex; gap:12px; justify-content:center; color:var(--muted);
+    font-size:12.5px; margin-top:18px; flex-wrap:wrap}
+
+  /* progress */
+  .prog-wrap{padding:22px 32px 0}
+  .prog-top{display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:13px; font-weight:700; margin-bottom:10px}
+  .prog{height:8px; background:var(--line); border-radius:99px; overflow:hidden}
+  .prog>i{display:block; height:100%; width:0;
+    background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .3s}
+
+  /* question */
+  .q{padding:24px 32px 34px}
+  .q .scene{color:var(--brand); font-size:12.5px; font-weight:800; letter-spacing:.04em}
+  .q h2{font-size:20.5px; line-height:1.5; margin:8px 0 22px; min-height:62px; letter-spacing:-.01em}
+  .opt{
+    display:block; width:100%; text-align:left; padding:15px 17px; margin-bottom:10px;
+    background:var(--soft); border:2px solid var(--line); border-radius:14px;
+    color:var(--ink); font-family:inherit; font-size:15.5px; font-weight:600;
+    cursor:pointer; transition:border .15s, transform .1s, background .15s;
+  }
+  .opt:hover{border-color:var(--brand); background:#232733}
+  .opt:active{transform:scale(.99)}
+
+  /* result */
+  .res{padding:0 0 32px}
+  .res-hero{
+    padding:34px 28px 28px; text-align:center;
+    background:linear-gradient(160deg,#2a1d0c,#3a2410 60%,#42200f);
+    border-bottom:1px solid var(--line);
+  }
+  .score-ring{
+    width:170px; height:170px; margin:0 auto 14px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; position:relative;
+    background:conic-gradient(var(--brand) 0turn, var(--brand2) var(--pct,0turn), #2c313d var(--pct,0turn) 1turn);
+    transition:background .8s ease;
+  }
+  .score-ring::after{
+    content:""; position:absolute; inset:13px; border-radius:50%;
+    background:linear-gradient(160deg,#2a1d0c,#3a2410);
+  }
+  .score-inner{position:relative; z-index:1; text-align:center}
+  .score-num{font-size:52px; font-weight:900; line-height:1; letter-spacing:-.03em;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .score-unit{font-size:13px; color:var(--muted); font-weight:800; letter-spacing:.14em; margin-top:4px}
+  .rank-badge{
+    display:inline-block; padding:5px 14px; border-radius:99px; margin-bottom:8px;
+    background:rgba(255,204,51,.14); color:var(--brand);
+    font-size:12px; font-weight:900; letter-spacing:.1em;
+  }
+  .res-title{font-size:28px; font-weight:900; margin:2px 0 6px; letter-spacing:-.02em}
+  .res-tagline{font-size:15px; color:#d6b98a; margin:0}
+
+  .res-body{padding:26px 30px 4px}
+  .verdict{
+    background:var(--soft); border-left:4px solid var(--brand2); border-radius:0 12px 12px 0;
+    padding:14px 16px; font-size:15.5px; font-weight:700; margin:0 0 18px;
+  }
+  .res-body p.desc{font-size:15.5px; margin:0 0 18px; color:#c8cede}
+
+  .bars{margin:0 0 20px}
+  .bar-row{margin-bottom:13px}
+  .bar-top{display:flex; justify-content:space-between; font-size:13px;
+    font-weight:700; margin-bottom:5px}
+  .bar-top .bv{color:var(--brand)}
+  .bar{height:9px; background:var(--line); border-radius:99px; overflow:hidden}
+  .bar>i{display:block; height:100%; width:0; border-radius:99px;
+    background:linear-gradient(90deg,var(--brand),var(--brand2)); transition:width .9s ease}
+
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 20px}
+  .tag{background:#242936; color:var(--brand); border-radius:99px;
+    padding:6px 13px; font-size:12.5px; font-weight:800}
+  .cure{
+    background:var(--soft); border:1px solid var(--line); border-radius:14px;
+    padding:15px 16px; margin-bottom:6px;
+  }
+  .cure .clbl{font-size:11.5px; color:var(--muted); font-weight:800;
+    letter-spacing:.08em; margin-bottom:7px}
+  .cure ul{margin:0; padding-left:18px; font-size:14.5px; color:#c8cede}
+  .cure li{margin-bottom:5px}
+  .share{padding:20px 30px 0; display:grid; gap:10px}
+  .toast{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    background:var(--brand); color:#1a1207; padding:12px 20px; border-radius:99px;
+    font-size:14px; font-weight:800; opacity:0; transition:.25s;
+    pointer-events:none; z-index:9;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin-top:20px}
+  .hidden{display:none}
+  @media (max-width:480px){
+    .pad{padding:32px 22px} .q{padding:20px 22px 28px}
+    h1{font-size:26px} .res-title{font-size:24px}
+    .res-body,.share{padding-left:22px; padding-right:22px}
+    .score-ring{width:150px; height:150px} .score-num{font-size:45px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- INTRO -->
+  <section class="card" id="intro">
+    <div class="pad">
+      <div class="eyebrow">경 훈 력 측 정 기</div>
+      <div class="gauge-icon"></div>
+      <h1>내 안의 <span class="em">경훈력</span>은<br>몇 점일까?</h1>
+      <p class="sub">20문항으로 측정하는 나의 찐따력<br>점수 높을수록… 축하합니다</p>
+      <button class="btn" id="startBtn">측정 시작하기</button>
+      <div class="meta-row">
+        <span>⏱ 약 2분</span><span>·</span><span>📊 0~100점</span><span>·</span><span>🩺 처방전 포함</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="card hidden" id="quiz">
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="qcount">1 / 20</span><span>경훈력 측정 중…</span></div>
+      <div class="prog"><i id="progbar"></i></div>
+    </div>
+    <div class="q">
+      <div class="scene" id="scene"></div>
+      <h2 id="qtext"></h2>
+      <div id="opts"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="card hidden" id="result">
+    <div class="res">
+      <div class="res-hero">
+        <div class="score-ring" id="ring">
+          <div class="score-inner">
+            <div class="score-num" id="rScore">0</div>
+            <div class="score-unit">경 훈 력</div>
+          </div>
+        </div>
+        <div class="rank-badge" id="rRank">등급</div>
+        <div class="res-title" id="rTitle"></div>
+        <p class="res-tagline" id="rTagline"></p>
+      </div>
+
+      <div class="res-body">
+        <p class="verdict" id="rVerdict"></p>
+        <p class="desc" id="rDesc"></p>
+
+        <div class="bars" id="bars"></div>
+
+        <div class="tags" id="rTags"></div>
+
+        <div class="cure">
+          <div class="clbl">🩺 처 방 전</div>
+          <ul id="rCure"></ul>
+        </div>
+      </div>
+
+      <div class="share">
+        <button class="btn" id="copyBtn">🔗 내 점수 복사해서 친구 도발하기</button>
+        <button class="btn ghost" id="retryBtn">다시 측정하기</button>
+      </div>
+      <div class="foot">캡처해서 친구 점수랑 비교해보세요 · 경훈력 측정기</div>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">복사됐어요! 단톡방에 붙여넣기 하세요</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s)};
+
+  /* 20 questions.
+     Each option carries a score 0~5 (higher = more 경훈력)
+     and a category: SOC(사회성) SEN(눈치) STY(패션·꾸밈) SOL(고독력) CRG(용기) */
+  var Q=[
+    {cat:"SOC",scene:"단톡방",q:"친구들 단톡방에 내가 보낸 메시지, 아무도 답 안 함.",
+     a:[["아 뭐야~ 하고 다시 던진다",0],["5분 뒤 조용히 지운다",3],["안 지우고 계속 쳐다본다. 30분째",5]]},
+    {cat:"SEN",scene:"엘리베이터",q:"엘리베이터에 아는 사람이랑 단둘이 탔다.",
+     a:[["자연스럽게 근황 토크",0],["가벼운 인사 후 정적",2],["휴대폰 화면 보는 척. 사실 홈화면",5]]},
+    {cat:"SOL",scene:"점심시간",q:"같이 밥 먹을 사람이 없는 날.",
+     a:[["아무한테나 연락해서 잡는다",0],["편의점에서 대충 때운다",3],["화장실 칸에서 먹어본 적 있다",5]]},
+    {cat:"STY",scene:"옷장 앞",q:"약속 나가기 30분 전, 뭐 입지?",
+     a:[["미리 코디 생각해뒀다",0],["무난한 거 대충 집는다",2],["3년째 같은 후드티. 색깔만 다름",5]]},
+    {cat:"CRG",scene:"카페",q:"주문한 음료가 잘못 나왔다.",
+     a:[["바로 바꿔달라고 한다",0],["잠깐 고민하다 말한다",2],["그냥 마신다. 이것도 맛있네",5]]},
+    {cat:"SOC",scene:"동창회 연락",q:"오랜만에 동창회 초대장이 왔다.",
+     a:[["오 재밌겠다 하고 바로 간다",0],["갈까 말까 3일 고민한다",3],["읽씹. 안 간다. 근데 사진은 다 본다",5]]},
+    {cat:"SEN",scene:"회식 자리",q:"다 같이 웃는데 나만 포인트를 놓쳤다.",
+     a:[["뭐야 뭐야 하고 물어본다",0],["일단 같이 웃는다",3],["같이 웃고 집 가서 검색해본다",5]]},
+    {cat:"STY",scene:"거울 앞",q:"사진 찍힐 때 내 표정은?",
+     a:[["각도까지 계산된 자연스러움",0],["어색하게 브이",3],["눈 반쯤 감기고 입 벌어짐. 항상",5]]},
+    {cat:"SOL",scene:"주말",q:"이번 주말 계획은?",
+     a:[["약속 두 탕 이상",0],["하나 정도 있다",2],["계획? 그건 나가는 사람들 얘기",5]]},
+    {cat:"CRG",scene:"발표 시간",q:"수업/회의에서 갑자기 지목당했다.",
+     a:[["오히려 좋아. 준비 안 했어도 됨",0],["더듬거리며 어떻게든 한다",3],["목소리가 안 나옴. 진짜로",5]]},
+    {cat:"SOC",scene:"새로운 모임",q:"처음 나간 모임, 자기소개 순서다.",
+     a:[["드립 섞어서 웃기고 앉는다",0],["이름이랑 직업만 말한다",3],["이름 말하다 목소리 갈라짐",5]]},
+    {cat:"SEN",scene:"카톡 답장",q:"상대가 'ㅇㅇ' 이라고만 보냈다.",
+     a:[["신경 안 씀. 원래 그런 사람",0],["살짝 신경 쓰인다",3],["내가 뭘 잘못했나 대화 처음부터 다시 읽음",5]]},
+    {cat:"STY",scene:"미용실",q:"머리 자르러 갔을 때 나는?",
+     a:[["원하는 스타일 사진 보여줌",0],["짧게 잘라주세요",2],["알아서 해주세요 (그리고 후회)",5]]},
+    {cat:"SOL",scene:"금요일 밤",q:"불금, 지금 뭐하고 있나?",
+     a:[["밖에서 사람들이랑",0],["집에서 넷플릭스",3],["침대에서 유튜브 알고리즘 6시간째",5]]},
+    {cat:"CRG",scene:"길에서",q:"길 가다 아는 사람을 멀리서 발견했다.",
+     a:[["손 흔들며 부른다",0],["가까워지면 인사한다",2],["못 본 척 방향을 튼다",5]]},
+    {cat:"SOC",scene:"단체 사진",q:"단체 사진 찍을 때 내 위치는?",
+     a:[["가운데 앞줄",0],["적당히 중간",2],["맨 끝. 반쯤 잘림",5]]},
+    {cat:"SEN",scene:"식당에서",q:"주문할 때 직원 부르는 방법은?",
+     a:[["저기요! 하고 부른다",0],["눈 마주치길 기다린다",3],["벨 있는 식당만 간다",5]]},
+    {cat:"STY",scene:"쇼핑",q:"옷 살 때 나는?",
+     a:[["입어보고 이것저것 고른다",0],["온라인으로 무난한 거",3],["점원이 말 걸어서 나옴. 빈손으로",5]]},
+    {cat:"SOL",scene:"통화",q:"모르는 번호로 전화가 왔다.",
+     a:[["바로 받는다",0],["일단 받고 본다",2],["안 받는다. 문자로 보내라고 기도한다",5]]},
+    {cat:"CRG",scene:"고백 상황",q:"좋아하는 사람이 생겼다면?",
+     a:[["티 내고 다가간다",0],["친구부터 시작한다",2],["혼자 좋아하다 자연 소멸시킨다",5]]}
+  ];
+
+  var CAT={
+    SOC:{n:"사회성 붕괴도",inv:false},
+    SEN:{n:"눈치 과부하",inv:false},
+    STY:{n:"꾸밈 포기력",inv:false},
+    SOL:{n:"고독 내성",inv:false},
+    CRG:{n:"용기 결핍",inv:false}
+  };
+
+  /* score tiers (0~100) */
+  var TIERS=[
+    {min:0,max:19,rank:"경훈력 F",title:"인싸 그 자체",
+     tag:"이 테스트를 왜 하고 있는지 의문",
+     verdict:"경훈력 거의 없음. 유감입니다.",
+     desc:"당신은 이 테스트의 대상이 아닙니다. 사람 많은 곳에서 에너지를 얻고, 처음 본 사람과도 5분이면 친해지는 유형. 주변에 경훈력 높은 친구가 있다면 잘 챙겨주세요. 그 친구는 지금 이 결과를 보고 있습니다.",
+     tags:["#인싸","#에너지드링크","#경훈력미달","#부럽다"],
+     cure:["가끔은 혼자 있는 시간도 가져보세요","조용한 친구에게 먼저 말 걸어주기","이 테스트를 친구에게 보내서 놀리기"]},
+    {min:20,max:39,rank:"경훈력 D",title:"평범한 사회인",
+     tag:"겉으론 멀쩡, 속으론 가끔 삐걱",
+     verdict:"경훈력 경미. 사회생활 지장 없음.",
+     desc:"필요할 땐 나서고, 피곤하면 숨을 줄도 아는 균형형. 어색한 순간이 와도 금방 회복합니다. 다만 가끔 이불킥할 기억이 하나둘 쌓이고 있죠. 그 정도는 다들 그래요. 진짜로.",
+     tags:["#평범인","#가끔이불킥","#적당한사회성","#무난"],
+     cure:["지금이 딱 좋습니다","이불킥 기억은 아무도 기억 못 함","가끔 먼저 연락해보기"]},
+    {min:40,max:59,rank:"경훈력 C",title:"숨은 경훈",
+     tag:"밖에선 멀쩡한 척, 집에선 본체",
+     verdict:"경훈력 중급. 위장 상태 양호.",
+     desc:"사회적 가면은 잘 쓰고 다니지만, 혼자가 되는 순간 진짜 모습이 나옵니다. 모임 끝나고 집에 오는 길이 제일 편하죠. 사람들은 당신이 조용한 편이라고만 생각하지, 이 정도인 줄은 모릅니다.",
+     tags:["#위장인싸","#집이최고","#은근경훈","#퇴근이인생"],
+     cure:["집순이/집돌이도 훌륭한 삶입니다","억지로 나가지 않아도 괜찮아요","단, 연락은 가끔 먼저 하기"]},
+    {min:60,max:79,rank:"경훈력 B",title:"준수한 경훈",
+     tag:"본체가 슬슬 새어나오는 중",
+     verdict:"경훈력 상급. 주변에서 눈치챘을 수도.",
+     desc:"모르는 번호는 안 받고, 식당은 벨 있는 곳만 가고, 단톡방은 읽기만 합니다. 밖에 나가면 에너지가 순삭되고 집에 와야 비로소 숨이 쉬어지죠. 이미 친구들 사이에서 '조용한 애'로 확실히 자리 잡았습니다.",
+     tags:["#읽씹장인","#벨없으면안감","#집=충전기","#약속취소환영"],
+     cure:["일주일에 한 번은 사람 만나기","전화 안 받아도 문자는 하기","혼자가 편한 건 잘못이 아닙니다"]},
+    {min:80,max:94,rank:"경훈력 A",title:"경훈 그 자체",
+     tag:"당신이 바로 그 김경훈입니다",
+     verdict:"경훈력 매우 높음. 축하합니다(?).",
+     desc:"길에서 아는 사람 보면 방향을 틀고, 잘못 나온 음료도 그냥 마시고, 사진은 항상 눈이 반쯤 감겨 있습니다. 하지만 이건 결함이 아니라 특성이에요. 세상이 좀 시끄러울 뿐입니다. 당신은 그냥 볼륨이 낮게 태어난 거고요.",
+     tags:["#찐경훈","#방향전환장인","#눈반쯤","#세상이시끄러움"],
+     cure:["잘못 나온 음료는 바꿔달라고 해도 됩니다","길에서 마주치면 그냥 인사해도 아무 일 안 생겨요","당신을 좋아하는 사람은 이미 있습니다"]},
+    {min:95,max:100,rank:"경훈력 S",title:"김경훈 본인",
+     tag:"측정기 고장 아님. 진짜입니다",
+     verdict:"경훈력 만렙. 살아있는 전설.",
+     desc:"이 정도면 측정기가 감당이 안 됩니다. 화장실에서 밥 먹어봤고, 지목당하면 목소리가 실제로 안 나오고, 좋아하는 마음은 항상 자연 소멸시켰죠. 그런데 여기까지 20문항을 다 풀었다는 건, 사실 당신도 궁금했다는 뜻입니다. 그 마음이면 충분해요.",
+     tags:["#전설","#만렙경훈","#자연소멸장인","#근데귀여움"],
+     cure:["오늘 딱 한 명한테만 먼저 연락해보기","'저기요' 한 번만 소리 내서 말해보기","이 결과 캡처해서 올리면 은근 반응 좋습니다"]}
+  ];
+
+  var idx=0, total=0, maxTotal=0, catScore={}, catMax={};
+  Object.keys(CAT).forEach(function(k){ catScore[k]=0; catMax[k]=0; });
+  Q.forEach(function(q){
+    var m=Math.max.apply(null,q.a.map(function(o){return o[1]}));
+    maxTotal+=m; catMax[q.cat]+=m;
+  });
+
+  function render(){
+    var item=Q[idx];
+    $("#scene").textContent="# "+item.scene;
+    $("#qtext").textContent=item.q;
+    $("#qcount").textContent=(idx+1)+" / "+Q.length;
+    $("#progbar").style.width=(idx/Q.length*100)+"%";
+    var box=$("#opts"); box.innerHTML="";
+    item.a.forEach(function(pair){
+      var b=document.createElement("button");
+      b.className="opt"; b.textContent=pair[0];
+      b.onclick=function(){ pick(item.cat, pair[1]); };
+      box.appendChild(b);
+    });
+  }
+  function pick(cat,val){
+    total+=val; catScore[cat]+=val;
+    idx++;
+    if(idx<Q.length) render(); else finish();
+  }
+  function finish(){
+    var pct=Math.round(total/maxTotal*100);
+    var tier=TIERS[TIERS.length-1];
+    for(var i=0;i<TIERS.length;i++){
+      if(pct>=TIERS[i].min && pct<=TIERS[i].max){ tier=TIERS[i]; break; }
+    }
+    $("#progbar").style.width="100%";
+    $("#rRank").textContent=tier.rank;
+    $("#rTitle").textContent=tier.title;
+    $("#rTagline").textContent=tier.tag;
+    $("#rVerdict").textContent=tier.verdict;
+    $("#rDesc").textContent=tier.desc;
+
+    var tw=$("#rTags"); tw.innerHTML="";
+    tier.tags.forEach(function(t){
+      var s=document.createElement("span"); s.className="tag"; s.textContent=t; tw.appendChild(s);
+    });
+    var cw=$("#rCure"); cw.innerHTML="";
+    tier.cure.forEach(function(c){
+      var li=document.createElement("li"); li.textContent=c; cw.appendChild(li);
+    });
+
+    // category bars
+    var bw=$("#bars"); bw.innerHTML="";
+    var rows=[];
+    Object.keys(CAT).forEach(function(k){
+      rows.push({k:k,n:CAT[k].n,v:Math.round(catScore[k]/catMax[k]*100)});
+    });
+    rows.sort(function(a,b){return b.v-a.v});
+    rows.forEach(function(r){
+      var row=document.createElement("div"); row.className="bar-row";
+      row.innerHTML='<div class="bar-top"><span>'+r.n+'</span><span class="bv">'+r.v+'%</span></div>'+
+                    '<div class="bar"><i></i></div>';
+      bw.appendChild(row);
+      setTimeout(function(){ row.querySelector(".bar>i").style.width=r.v+"%"; },60);
+    });
+
+    show("#result");
+    // animate score number + ring
+    var cur=0;
+    var step=Math.max(1,Math.round(pct/28));
+    var timer=setInterval(function(){
+      cur+=step;
+      if(cur>=pct){ cur=pct; clearInterval(timer); }
+      $("#rScore").textContent=cur;
+      $("#ring").style.setProperty("--pct",(cur/100)+"turn");
+    },26);
+
+    try{ location.hash="score"+pct; }catch(e){}
+    window.scrollTo(0,0);
+  }
+  function show(sel){
+    ["#intro","#quiz","#result"].forEach(function(s){ $(s).classList.add("hidden"); });
+    $(sel).classList.remove("hidden");
+  }
+  function reset(){
+    idx=0; total=0;
+    Object.keys(CAT).forEach(function(k){ catScore[k]=0; });
+    $("#rScore").textContent="0";
+    $("#ring").style.setProperty("--pct","0turn");
+  }
+
+  $("#startBtn").onclick=function(){ reset(); render(); show("#quiz"); };
+  $("#retryBtn").onclick=function(){
+    reset(); try{location.hash="";}catch(e){} show("#intro");
+  };
+  $("#copyBtn").onclick=function(){
+    var s=$("#rScore").textContent, r=$("#rRank").textContent, t=$("#rTitle").textContent;
+    var msg="내 경훈력 "+s+"점 ["+r+" · "+t+"] 나왔다. 너는 몇 점? 👉 "+location.href;
+    var done=function(){
+      var el=$("#toast"); el.classList.add("show");
+      setTimeout(function(){el.classList.remove("show");},2200);
+    };
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(msg).then(done,function(){ prompt("아래 내용을 복사하세요:",msg); });
+    } else { prompt("아래 내용을 복사하세요:",msg); }
+  };
+})();
+</script>
+</body>
+</html>
